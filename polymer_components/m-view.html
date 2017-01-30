@@ -5,6 +5,32 @@
 <dom-module id="m-view">
     <template>
         <style>
+         :root {
+             margin: 0 auto;
+             padding-left: 45px;
+             padding-right: 45px;
+             padding-top: 45px;
+         }
+
+         header h1 {
+             font-size: 20px;
+             font-weight: 100;
+             margin: 0;
+             padding: 0;
+         }
+
+         .toc {
+             margin-bottom: 20px;
+             border-bottom: 1px solid #ddd;
+         }
+         .toc h2 {
+             border-bottom: 1px solid #eee;
+         }
+         .markdown-content {
+             box-sizing: border-box;
+             margin: 0 auto;
+         }
+
         </style>
         <div class="container">
             <header>
@@ -16,6 +42,13 @@
                 </paper-tooltip>
             </header>
             <section>
+                <div class="toc">
+                    <h2>
+                        Table of contents
+                    </h2>
+                    <div class="markdown-body" id="markdown-toc">
+                    </div>
+                </div>
                 <div class="markdown-body" id="markdown-content">
                 </div>
             </section>
@@ -29,7 +62,6 @@
          properties: {
              file: String,
              filename_fullpath: String,
-             contents_html: String,
          },
 
          _hasFile: function() {
@@ -38,6 +70,10 @@
 
          setMarkdownHTML: function(content) {
              document.getElementById('markdown-content').innerHTML = content;
+         },
+
+         setTOCHTML: function(toc) {
+             document.getElementById('markdown-toc').innerHTML = toc;
          },
      });
     </script>
