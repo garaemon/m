@@ -1,0 +1,44 @@
+<!-- m-view.html -->
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+
+<dom-module id="m-view">
+    <template>
+        <style>
+        </style>
+        <div class="container">
+            <header>
+                <h1 id="title">
+                    <span id="title-word">{{file}}</span>
+                </h1>
+                <paper-tooltip position="top" for="title-word">
+                    {{fullpath}}
+                </paper-tooltip>
+            </header>
+            <section>
+                <div class="markdown-body" id="markdown-content">
+                </div>
+            </section>
+            <footer>
+            </footer>
+        </div>
+    </template>
+    <script>
+     Polymer({
+         is: "m-view",
+         properties: {
+             file: String,
+             filename_fullpath: String,
+             contents_html: String,
+         },
+
+         _hasFile: function() {
+             return !this.file;
+         },
+
+         setMarkdownHTML: function(content) {
+             document.getElementById('markdown-content').innerHTML = content;
+         },
+     });
+    </script>
+</dom-module>
