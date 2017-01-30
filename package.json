@@ -31,6 +31,7 @@
     "electron-debug": "^1.0.0",
     "is-electron-renderer": "^2.0.1",
     "marked": "^0.3.6",
+    "marked-toc": "^0.3.0",
     "pygmentize-bundled": "^2.3.0"
   },
   "devDependencies": {
