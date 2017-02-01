@@ -54,4 +54,11 @@ app.on('ready', () => {
     log.info(`detect change on ${target_file}`);
     mainWindow.send('notify-file', target_file);
   });
+  electron.ipcMain.on('copy-to-clipboard', function(event, arg) {
+    if (arg) {
+      log.info(`write to clipboard: ${arg}`);
+      // CAVEAT: writeText does not work in tmux environment on OS X.
+      electron.clipboard.writeText(arg);
+    }
+  });
 });
