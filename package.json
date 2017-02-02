@@ -25,6 +25,7 @@
     "electron"
   ],
   "dependencies": {
+    "cheerio": "^0.22.0",
     "color-log": "0.0.2",
     "colors": "^1.1.2",
     "ejs": "^2.5.5",
