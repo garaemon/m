@@ -1,6 +1,11 @@
 <!-- m-view.html -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
 
 <dom-module id="m-view">
     <template>
@@ -23,6 +28,13 @@
              margin-bottom: 20px;
              border-bottom: 1px solid #ddd;
          }
+         .toc.invisible {
+             display: none;
+         }
+         .toc.visible {
+             display: block;
+         }
+
          .toc h2 {
              border-bottom: 1px solid #eee;
          }
@@ -36,13 +48,33 @@
             <header>
                 <h1 id="title">
                     <span id="title-word">{{file}}</span>
+                    <paper-menu-button>
+                        <paper-icon-button icon="menu" class="dropdown-trigger"></paper-icon-button>
+                        <paper-menu class="dropdown-content"
+                                    on-iron-select="_menuSelected">
+                            <template is="dom-if" if="{{show_toc}}">
+                                <paper-item action="toggle_toc">
+                                    Hide Table of Contents
+                                </paper-item>
+                            </template>
+                            <template is="dom-if" if="{{!show_toc}}">
+                                <paper-item action="toggle_toc">
+                                    Show Table of Contents
+                                </paper-item>
+                            </template>
+                            <paper-item action="copy_path">
+                                Copy path to clipboard
+                            </paper-item>
+                        </paper-menu>
+                    </paper-menu-button>
+
                 </h1>
                 <paper-tooltip position="top" for="title-word">
                     {{fullpath}}
                 </paper-tooltip>
             </header>
             <section>
-                <div class="toc">
+                <div class="toc" id="toc">
                     <h2>
                         Table of contents
                     </h2>
@@ -62,10 +94,43 @@
          properties: {
              file: String,
              filename_fullpath: String,
+             show_toc: {
+                 type: Boolean,
+                 value: true
+             },
          },
 
          _hasFile: function() {
              return !this.file;
+         },
+
+         _menuSelected: function(e) {
+             var selectedItem = e.target.selectedItem;
+             if (selectedItem) {
+                 if (selectedItem.getAttribute('action') == 'copy_path') {
+                     this._copyPathToClipBoard();
+                 }
+                 if (selectedItem.getAttribute('action') == 'toggle_toc') {
+                     this._toggleTOC();
+                 }
+             }
+         },
+
+         _toggleTOC: function() {
+             this.show_toc = !this.show_toc;
+             if (this.show_toc) {
+                 this.$.toc.classList.add('visible');
+                 this.$.toc.classList.remove('invisible');
+             } else {
+                 this.$.toc.classList.remove('visible');
+                 this.$.toc.classList.add('invisible');
+             }
+         },
+
+         _copyPathToClipBoard: function() {
+             console.log(this.fullpath);
+             electron.ipcRenderer.send('copy-to-clipboard', this.fullpath);
+             //electron.remote.require('electron').clipboard.writeText(this.fullpath);
          },
 
          setMarkdownHTML: function(content) {
