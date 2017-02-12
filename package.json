@@ -25,6 +25,7 @@
     "electron"
   ],
   "dependencies": {
+    "async": "^2.1.4",
     "cheerio": "^0.22.0",
     "color-log": "0.0.2",
     "colors": "^1.1.2",
@@ -33,7 +34,8 @@
     "highlightjs": "^9.8.0",
     "is-electron-renderer": "^2.0.1",
     "marked": "^0.3.6",
-    "marked-toc": "^0.3.0"
+    "marked-toc": "^0.3.0",
+    "mathjax-node": "^0.5.2"
   },
   "devDependencies": {
     "devtron": "^1.1.0",
