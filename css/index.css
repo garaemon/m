@@ -7,3 +7,28 @@ body {
 body {
     font-family: -apple-system, 'Helvetica Neue', Helvetica, sans-serif;
 }
+
+.language-label {
+    font-size: 10px;
+    width: auto;
+    color: #555;
+    display: block;
+    padding-bottom: 10px;
+    /* Disable copy from user */
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+
+}
+
+.language-label-name {
+    background-color: white;
+    display: inline-block;
+}
+
+.markdown-body pre {
+    padding-top: 0px;
+}
