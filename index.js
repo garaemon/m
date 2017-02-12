@@ -5,7 +5,7 @@ const electron_reload = require('electron-reload');
 const util = require('util');
 const ejs = require('ejs');
 const fs = require('fs');
-const log = require('color-log');
+const log = require('winston');
 
 const app = electron.app;
 // adds debug features like hotkeys for triggering dev tools and reload
