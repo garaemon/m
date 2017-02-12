@@ -1,6 +1,7 @@
 'use strict';
 
 const electron = require('electron');
+const electron_reload = require('electron-reload');
 const util = require('util');
 const ejs = require('ejs');
 const fs = require('fs');
@@ -9,6 +10,9 @@ const log = require('color-log');
 const app = electron.app;
 // adds debug features like hotkeys for triggering dev tools and reload
 require('electron-debug')();
+
+// reload if any change is detected.
+electron_reload(__dirname);
 
 const target_file = process.argv[2];
 // prevent window being garbage collected
