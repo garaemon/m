@@ -14,6 +14,17 @@ require('electron-debug')();
 // reload if any change is detected.
 electron_reload(__dirname);
 
+log.addColors({
+    debug: 'green',
+    info:  'cyan',
+    silly: 'magenta',
+    warn:  'yellow',
+    error: 'red'
+});
+
+log.remove(log.transports.Console);
+log.add(log.transports.Console, {level: 'debug', colorize:true, timestamp: true});
+
 const target_file = process.argv[2];
 // prevent window being garbage collected
 let mainWindow;
