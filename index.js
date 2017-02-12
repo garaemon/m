@@ -5,7 +5,7 @@ const electron_reload = require('electron-reload');
 const util = require('util');
 const ejs = require('ejs');
 const fs = require('fs');
-const log = require('color-log');
+const log = require('winston');
 
 const app = electron.app;
 // adds debug features like hotkeys for triggering dev tools and reload
@@ -13,6 +13,17 @@ require('electron-debug')();
 
 // reload if any change is detected.
 electron_reload(__dirname);
+
+log.addColors({
+    debug: 'green',
+    info:  'cyan',
+    silly: 'magenta',
+    warn:  'yellow',
+    error: 'red'
+});
+
+log.remove(log.transports.Console);
+log.add(log.transports.Console, {level: 'debug', colorize:true, timestamp: true});
 
 const target_file = process.argv[2];
 // prevent window being garbage collected
