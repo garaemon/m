@@ -30,10 +30,10 @@
     "colors": "^1.1.2",
     "ejs": "^2.5.5",
     "electron-debug": "^1.0.0",
+    "highlightjs": "^9.8.0",
     "is-electron-renderer": "^2.0.1",
     "marked": "^0.3.6",
-    "marked-toc": "^0.3.0",
-    "pygmentize-bundled": "^2.3.0"
+    "marked-toc": "^0.3.0"
   },
   "devDependencies": {
     "devtron": "^1.1.0",
