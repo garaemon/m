@@ -1,0 +1,29 @@
+{
+  "name": "m",
+  "description": "Simple Markdown Viewer",
+  "main": "index.js",
+  "authors": [
+    "Ryohei Ueda"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "electron-app",
+    "electron"
+  ],
+  "homepage": "https://github.com/garaemon/m",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "app-elements": "^0.10.1",
+    "github-markdown-css": "^2.4.1",
+    "highlightjs": "^9.9.0",
+    "iron-elements": "^1.0.10",
+    "marked": "^0.3.6",
+    "paper-elements": "^1.0.7"
+  }
+}
