@@ -1,0 +1,67 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<dom-module id="code-meta-info">
+    <template>
+        <style>
+         .code-block-meta-info {
+             white-space: normal;
+             background-color: #f7f7f7;
+         }
+
+         .original-code {
+             display: none;
+         }
+
+         .language-label {
+             display: inline-block:
+             background-color: white;
+         }
+
+         .copy-button {
+             height: 30px;
+         }
+        </style>
+
+        <div class="code-block-meta-info">
+            <div class="language-label"><span class="language-label-name">
+                {{language}}
+            </span>
+            <textarea class="original-code" id="{{_original_code_id}}">
+            {{code}}
+            </textarea>
+        </div>
+    </template>
+    <script>
+     Polymer({
+         is: 'code-meta-info',
+
+         properties: {
+             language: String,
+             code: String
+         },
+
+         ready: function() {
+             const original_code_id = this._generateRandomId();
+             this._original_code_id = original_code_id;
+
+             // electron.clipboard.writeText();
+         },
+
+         /**
+          * Generate random id from:
+          *    http://stackoverflow.com/questions/6860853/generate-random-string-for-div-id
+          */
+         _generateRandomId() {
+             var S4 = function() {
+                 return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+             };
+             return ('original-code'+S4()+S4()+S4()+S4()+S4()+S4()+S4()+S4());
+         },
+     });
+    </script>
+</dom-module>
