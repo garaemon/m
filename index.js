@@ -30,6 +30,12 @@ log.add(log.transports.Console, {level: 'debug', colorize:true, timestamp: true}
 
 const target_file = process.argv[2];
 const is_debug_mode = 'debug' in argv && argv['debug'];
+
+if (!fs.existsSync(target_file)) {
+  log.error(`${target_file} does not exists.`);
+  process.exit(1);
+}
+
 // prevent window being garbage collected
 let mainWindow;
 
