@@ -6,6 +6,9 @@ const util = require('util');
 const ejs = require('ejs');
 const fs = require('fs');
 const log = require('winston');
+const minimist = require('minimist');
+
+const argv = minimist(process.argv.slice(2));
 
 const app = electron.app;
 // adds debug features like hotkeys for triggering dev tools and reload
@@ -26,6 +29,7 @@ log.remove(log.transports.Console);
 log.add(log.transports.Console, {level: 'debug', colorize:true, timestamp: true});
 
 const target_file = process.argv[2];
+const is_debug_mode = 'debug' in argv && argv['debug'];
 // prevent window being garbage collected
 let mainWindow;
 
@@ -37,8 +41,8 @@ function onClosed() {
 
 function createMainWindow() {
   const win = new electron.BrowserWindow({
-    width: 600,
-    height: 400
+    width: 1200,
+    height: 800
   });
   const html_file = `file://${__dirname}/index.html`;
   win.loadURL(html_file);
@@ -63,6 +67,9 @@ app.on('ready', () => {
   mainWindow.webContents.on('did-finish-load', function() {
     log.info(`send notify-file event to open ${target_file}`);
     mainWindow.send('notify-file', target_file);
+    if (is_debug_mode) {
+      mainWindow.webContents.openDevTools();
+    }
   });
   // start watching file
   fs.watch(target_file, function() {
