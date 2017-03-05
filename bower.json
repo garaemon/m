@@ -24,6 +24,7 @@
     "highlightjs": "^9.9.0",
     "iron-elements": "^1.0.10",
     "marked": "^0.3.6",
-    "paper-elements": "^1.0.7"
+    "paper-elements": "^1.0.7",
+    "neon-animation": "^1.2.4"
   }
 }
