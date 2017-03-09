@@ -29,6 +29,10 @@
              color: #4078c0;
          }
 
+         #show-error-button {
+             color: #ff2222;
+         }
+
          paper-dialog {
              padding-left: 20px;
              padding-right: 20px;
@@ -45,6 +49,20 @@
                 <span class="language-label-name">
                     {{language}}
                 </span>
+                    <paper-icon-button id="show-error-button"
+                                       icon="icons:error"
+                                       hidden$="[[!hasError]]"
+                                       on-click="_showError">
+                    </paper-icon-button>
+                    <paper-tooltip for="show-error-button">
+                        Show error
+                    </paper-tooltip>
+                    <paper-dialog id="error_dialog"
+                                  entry-animation="scale-up-animation"
+                                  exit-animation="fade-out-animation">
+                        <h3>Error in rendering code block</h3>
+                        <pre>{{errorString}}</pre>
+                    </paper-dialog>
                 <paper-icon-button id="show-code-button" icon="icons:code"
                                    on-click="_showOriginalCode">
                 </paper-icon-button>
@@ -53,8 +71,7 @@
                 </paper-tooltip>
                 <paper-dialog id="original_code_dialog"
                               entry-animation="scale-up-animation"
-                              exit-animation="fade-out-animation"
-                >
+                              exit-animation="fade-out-animation">
                     <h3>Original Code</h3>
                     <pre><content></content></pre>
                 </paper-dialog>
@@ -67,10 +84,28 @@
 
          properties: {
              language: String,
+
+             errorString: {
+                 type: String,
+                 observer: '_errorStringChanged',
+             },
+
+             hasError: {
+                 type: Boolean,
+                 value: false,
+             }
          },
 
          _showOriginalCode: function() {
              this.$.original_code_dialog.open();
+         },
+
+         _showError: function() {
+             this.$.error_dialog.open();
+         },
+
+         _errorStringChanged: function() {
+             this.hasError = true;
          },
      });
     </script>
