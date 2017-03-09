@@ -42,3 +42,7 @@ Please use `\begin{eqnarray} ... \end{eqnarray}` to render equation with multipl
 \Rightarrow |f(x) - b| \lt \varepsilon
 \end{eqnarray}
 ```
+
+```mathjax
+E=mc^^2
+```
