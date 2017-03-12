@@ -183,7 +183,6 @@
          },
 
          _copyPathToClipBoard: function() {
-             console.log(this.fullpath);
              electron.ipcRenderer.send('copy-to-clipboard', this.fullpath);
              //electron.remote.require('electron').clipboard.writeText(this.fullpath);
          },
