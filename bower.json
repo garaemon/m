@@ -19,12 +19,14 @@
     "tests"
   ],
   "dependencies": {
-    "app-elements": "^0.10.1",
     "github-markdown-css": "^2.4.1",
     "highlightjs": "^9.9.0",
-    "iron-elements": "^1.0.10",
     "marked": "^0.3.6",
+    "mermaid": "^7.0.0",
     "paper-elements": "^1.0.7",
-    "neon-animation": "^1.2.4"
+    "app-elements": "^0.10.1",
+    "iron-elements": "^1.0.10",
+    "neon-animation": "^1.2.4",
+    "he": "^1.1.1"
   }
 }

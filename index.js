@@ -69,13 +69,15 @@ app.on('activate', () => {
 });
 
 app.on('ready', () => {
-  mainWindow = createMainWindow();
+  if (!mainWindow) {
+    mainWindow = createMainWindow();
+  }
+  if (is_debug_mode) {
+    mainWindow.webContents.openDevTools();
+  }
   mainWindow.webContents.on('did-finish-load', function() {
     log.info(`send notify-file event to open ${target_file}`);
     mainWindow.send('notify-file', target_file);
-    if (is_debug_mode) {
-      mainWindow.webContents.openDevTools();
-    }
   });
   // start watching file
   fs.watch(target_file, function() {
