@@ -7,6 +7,8 @@ const ejs = require('ejs');
 const fs = require('fs');
 const log = require('winston');
 const minimist = require('minimist');
+const openAboutWindow = require('about-window').default;
+const path = require('path');
 
 const argv = minimist(process.argv.slice(2));
 
@@ -56,6 +58,34 @@ function createMainWindow() {
   return win;
 }
 
+function setupMenu() {
+  const menu_template = [
+    {
+      label: 'm',
+      submenu: [
+        {
+          label: 'About m',
+          click: function() { showAboutApplication(); }
+        },
+        {
+          label: 'Quit',
+          accelerator: 'Command+Q',
+          click: function() { app.quit(); }
+        }
+      ]
+    }
+  ];
+  const menu = electron.Menu.buildFromTemplate(menu_template);
+  electron.Menu.setApplicationMenu(menu);
+}
+
+function showAboutApplication() {
+  openAboutWindow({
+    icon_path: path.join(__dirname, 'resources/logo.png'),
+    copyright: 'Copyright (c) 2017 garaemon',
+  });
+};
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
@@ -72,6 +102,7 @@ app.on('ready', () => {
   if (!mainWindow) {
     mainWindow = createMainWindow();
   }
+  setupMenu();
   if (is_debug_mode) {
     mainWindow.webContents.openDevTools();
   }
