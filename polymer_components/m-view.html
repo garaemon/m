@@ -5,10 +5,7 @@
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-menu/paper-menu.html">
-<link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animations.html"/>
 
@@ -22,14 +19,6 @@
              padding-left: 45px;
              padding-right: 45px;
              padding-top: 0px;
-         }
-
-         .drawer-menu > a {
-             display: block;
-             padding: 10px 10px;
-             font-size: 14px;
-             text-decoration: none;
-             color: #4078c0;
          }
 
          .toc {
@@ -60,12 +49,11 @@
              height: 70px;
              margin-top: 0px;
          }
-         app-header-layout > #contentContainer {
-         }
 
          app-header {
              background-color: white;
              height: 70px;
+             padding-left: 20px;
          }
 
          app-header h1 {
@@ -76,59 +64,10 @@
          app-toolbar {
              padding-left: 0;
          }
-
-         #menu-button {
-             padding-left: 0;
-         }
-         app-drawer {
-             --app-drawer-content-container: {
-                 background-color: white;
-                 overflow-x: hidden;
-             };
-         }
-
-         app-drawer app-header {
-             background-color: white;
-         }
-
-
         </style>
-        <app-drawer-layout drawer-width="288px" responsive-width="1280px">
-            <app-drawer id="drawer">
-                <iron-selector class="drawer-menu">
-                    <template is="dom-if" if="{{show_toc}}">
-                        <a href="#" on-click="_toggleTOC">
-                            <paper-icon-button
-                                icon="icons:list">
-                            </paper-icon-button>
-                            Hide Table of Contents
-                        </a>
-                    </template>
-                    <template is="dom-if" if="{{!show_toc}}">
-                        <a href="#" on-click="_toggleTOC">
-                            <paper-icon-button
-                                icon="icons:list">
-                            </paper-icon-button>
-                            Show Table of Contents
-                        </a>
-                    </template>
-                    <a href="#" on-click="_copyPathToClipBoard">
-                        <paper-icon-button
-                            icon="icons:content-copy">
-                        </paper-icon-button>
-                        Copy path to clipboard
-                    </a>
-                </iron-selector>
-            </app-drawer>
-            <app-header-layout>
+        <app-header-layout>
             <app-header fixed condenses>
                 <app-toolbar>
-                    <paper-icon-button
-                        drawer-toggle
-                        icon="icons:menu"
-                        id="menu-button"
-                        >
-                        </paper-icon-button>
                     <h1 id="title">
                         <span id="title-word">{{file}}</span>
                     </h1>
@@ -153,7 +92,6 @@
             </paper-dialog>
             </section>
         </app-header-layout>
-        </app-drawer-layout>
     </template>
     <script>
      Polymer({
@@ -180,11 +118,6 @@
                  this.$.toc.classList.remove('visible');
                  this.$.toc.classList.add('invisible');
              }
-         },
-
-         _copyPathToClipBoard: function() {
-             electron.ipcRenderer.send('copy-to-clipboard', this.fullpath);
-             //electron.remote.require('electron').clipboard.writeText(this.fullpath);
          },
 
          setMarkdownHTML: function(content) {

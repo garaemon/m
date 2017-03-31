@@ -1,8 +1,8 @@
 {
   "name": "m",
-  "productName": "M",
+  "productName": "m",
   "version": "0.0.0",
-  "description": "My groovy app",
+  "description": "m is a realtime rich markdown viewer",
   "license": "MIT",
   "repository": "garaemon/m",
   "author": {
@@ -25,6 +25,7 @@
     "electron"
   ],
   "dependencies": {
+    "about-window": "^1.6.1",
     "async": "^2.1.4",
     "cheerio": "^0.22.0",
     "color-log": "0.0.2",
