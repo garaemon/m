@@ -2,10 +2,6 @@
 
 const fs = require('fs');
 
-const async = require('async');
-const cheerio = require('cheerio');
-const highlightjs = require('highlight.js');
-const log = require('winston');
 const marked = require('marked');
 const toc = require('marked-toc');
 

@@ -10,43 +10,41 @@ const $ = require('gulp-load-plugins')();
 const jsSources = ['index.js', 'gulpfile.js',
                    './browser/**/*.js', './renderer/**/*.js'];
 
-// gulp.task('lint', () => {
-//   return gulp.src(jsSources)
-//     .pipe($.jshint())
-//     .pipe($.jshint.reporter('jshint-stylish'));
-// });
-
 gulp.task('lint', () => {
   return gulp.src(jsSources)
     .pipe($.eslint({
-      rules: {
-        'strict': 0,
-        'block-spacing': 2,
-        'camelcase': 2,
-        'no-undef': 'error'
-      },
       env: {
+        browser: true,
         node: true,
-        browser: true
       },
+      extends: 'eslint:recommended',
+      globals: [
+        '__dirname',
+        'console',
+        'document',
+        'he',
+        'mermaidAPI',
+        'module',
+        'process',
+        'require',
+      ],
       parserOptions: {
         ecmaVersion: 6
       },
-      globals: [
-        'console',
-        'require',
-        'document',
-        '__dirname',
-        'module',
-        'mermaidAPI',
-        'he',
-        'process',
-      ],
+      rules: {
+        'block-spacing': 2,
+        'camelcase': 2,
+        'no-multiple-empty-lines': ['error', {'max': 2}],
+        'no-undef': 'error',
+        'no-unused-vars': ['error', {'args': 'none'}],
+        // 'sort-keys': ['error', 'asc', {'caseSensitive': false}],
+        'strict': 0,
+      },
     }))
     .pipe($.eslint.format());
 });
 
-gulp.task('watch', () => {
+gulp.task('watch', ['lint'], () => {
   gulp.watch(jsSources, ['lint']);
 });
 

@@ -7,4 +7,4 @@ const Application = require('./browser/application.js');
 
 const argv = minimist(process.argv.slice(2));
 
-const app = new Application(argv);
+new Application(argv);

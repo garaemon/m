@@ -1,18 +1,17 @@
 const highlightjs = require('highlight.js');
-const log = require('winston');
 const mjAPI = require("mathjax-node/lib/mj-single.js");
 const he = require('he');
 
-class MarkdownHighlightPlugin {
-  /**
-   * - code: text of code
-   * - lang: laguage
-   * - callback: function(error, highlight_error, rendered code) { ... }
-   */
-  highlight(code, lang, callback) {
-    log.error('highlight method should be overloaded');
-  }
-}
+// class MarkdownHighlightPlugin {
+//   /**
+//    * - code: text of code
+//    * - lang: laguage
+//    * - callback: function(error, highlight_error, rendered code) { ... }
+//    */
+//   highlight(code, lang, callback) {
+//     log.error('highlight method should be overloaded');
+//   }
+// }
 
 class UndefinedHighlighter {
   highlight(code, lang, callback) {

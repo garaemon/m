@@ -1,7 +1,4 @@
-const electron = require('electron');
-
 const Menu = require('./Menu.js');
-
 
 class FileMenu extends Menu {
   constructor(app) {
