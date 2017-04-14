@@ -7,16 +7,47 @@
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
-const jsSources = ['index.js', './browser/**/*.js', './renderer/**/*.js'];
+const jsSources = ['index.js', 'gulpfile.js',
+                   './browser/**/*.js', './renderer/**/*.js'];
 
-gulp.task('jshint', () => {
+// gulp.task('lint', () => {
+//   return gulp.src(jsSources)
+//     .pipe($.jshint())
+//     .pipe($.jshint.reporter('jshint-stylish'));
+// });
+
+gulp.task('lint', () => {
   return gulp.src(jsSources)
-    .pipe($.jshint())
-    .pipe($.jshint.reporter('jshint-stylish'));
+    .pipe($.eslint({
+      rules: {
+        'strict': 0,
+        'block-spacing': 2,
+        'camelcase': 2,
+        'no-undef': 'error'
+      },
+      env: {
+        node: true,
+        browser: true
+      },
+      parserOptions: {
+        ecmaVersion: 6
+      },
+      globals: [
+        'console',
+        'require',
+        'document',
+        '__dirname',
+        'module',
+        'mermaidAPI',
+        'he',
+        'process',
+      ],
+    }))
+    .pipe($.eslint.format());
 });
 
 gulp.task('watch', () => {
-  gulp.watch(jsSources, ['jshint']);
+  gulp.watch(jsSources, ['lint']);
 });
 
-gulp.task('default', ['jshint']);
+gulp.task('default', ['lint']);

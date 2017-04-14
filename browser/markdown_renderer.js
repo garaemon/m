@@ -9,8 +9,8 @@ const log = require('winston');
 const marked = require('marked');
 const toc = require('marked-toc');
 
-const highlight_plugin = require('./markdown_highlight_plugin.js');
-const post_processor = require('./markdown_post_processor.js');
+const HighlightPlugin = require('./markdown_highlight_plugin.js');
+const PostProcessor = require('./markdown_post_processor.js');
 
 /**
  * MarkdownRenderer is a class to provide some static methods.
@@ -21,23 +21,23 @@ class MarkdownRenderer {
     /**
      * post processing plugins
      */
-    this.post_process_plugins = [
-      new post_processor.ImagePathFixer(),
-      new post_processor.CodeMetaInfoFixer(),
-      new post_processor.MermaidScriptProcessors()
+    this.postProcessPlugins = [
+      new PostProcessor.ImagePathFixer(),
+      new PostProcessor.CodeMetaInfoFixer(),
+      new PostProcessor.MermaidScriptProcessors()
     ];
 
     /**
      * highlight plugins.
      *
-     * the keys of highlight_plugins are regarded as language name of
+     * the keys of highlightPlugins are regarded as language name of
      * code blocks.
      */
-    this.highlight_plugins = {
-      'default': new highlight_plugin.DefaultHighlighter(),
-      'undefined': new highlight_plugin.UndefinedHighlighter(),
-      'mathjax': new highlight_plugin.MathjaxHighlighter(),
-      'mermaid': new highlight_plugin.MermaidHighlighter()
+    this.highlightPlugins = {
+      'default': new HighlightPlugin.DefaultHighlighter(),
+      'undefined': new HighlightPlugin.UndefinedHighlighter(),
+      'mathjax': new HighlightPlugin.MathjaxHighlighter(),
+      'mermaid': new HighlightPlugin.MermaidHighlighter()
     };
   }
 
@@ -76,12 +76,12 @@ class MarkdownRenderer {
 
   getHighlightPlugin(lang) {
     if (lang == undefined) {
-      return this.highlight_plugins['undefined'];
+      return this.highlightPlugins['undefined'];
     } else {
-      if (lang in this.highlight_plugins) {
-        return this.highlight_plugins[lang];
+      if (lang in this.highlightPlugins) {
+        return this.highlightPlugins[lang];
       } else {
-        return this.highlight_plugins['default'];
+        return this.highlightPlugins['default'];
       }
     }
   }
@@ -90,23 +90,23 @@ class MarkdownRenderer {
     const plugin = this.getHighlightPlugin(lang);
     // TODO: add lang meta info
     const self = this;
-    plugin.highlight(code, lang, function(err, highlight_err, code) {
-      const code_meta_info = self.computeCodeMetaInfoTag(code, lang, highlight_err);
+    plugin.highlight(code, lang, function(err, highlightErr, code) {
+      const codeMetaInfo = self.computeCodeMetaInfoTag(code, lang, highlightErr);
       if (err != null) {
         // TODO: what will happen?
         callback(err, code);
       } else {
-        callback(null, code_meta_info + code);
+        callback(null, codeMetaInfo + code);
       }
     });
   }
 
-  runPostProcessForMarkdownHTML(markdown_html, file) {
-    for (let i = 0; i < this.post_process_plugins.length; ++i) {
-      const plugin = this.post_process_plugins[i];
-      markdown_html = plugin.runPostProcess(markdown_html, file);
+  runPostProcessForMarkdownHTML(markdownHtml, file) {
+    for (let i = 0; i < this.postProcessPlugins.length; ++i) {
+      const plugin = this.postProcessPlugins[i];
+      markdownHtml = plugin.runPostProcess(markdownHtml, file);
     }
-    return markdown_html;
+    return markdownHtml;
   }
 
   /**
@@ -120,10 +120,10 @@ class MarkdownRenderer {
       if (err != null) {
         callback(err, null);
       } else {
-        marked(text, function(err, markdown_html) {
-          const rendered_html = self.runPostProcessForMarkdownHTML(markdown_html, file);
-          const toc_html = marked(toc(text, {firsth1: true}));
-          callback(err, {'contents': rendered_html, 'toc': toc_html});
+        marked(text, function(err, markdownHtml) {
+          const renderedHtml = self.runPostProcessForMarkdownHTML(markdownHtml, file);
+          const tocHtml = marked(toc(text, {firsth1: true}));
+          callback(err, {'contents': renderedHtml, 'toc': tocHtml});
         });
       }
     });

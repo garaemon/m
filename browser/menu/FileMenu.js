@@ -4,7 +4,7 @@ const Menu = require('./Menu.js');
 
 
 class FileMenu extends Menu {
-  constructor() {
+  constructor(app) {
     super();
     this.label = 'File';
     this.items = [
