@@ -1,20 +1,26 @@
 'use strict';
 
+// system files
 const fs = require('fs');
 const path = require('path');
 const util = require('util');
 
+// 3rd party libraries
 const electron = require('electron');
 const electron_reload = require('electron-reload');
+const electron_debug = require('electron-debug');
 const log = require('winston');
 const minimist = require('minimist');
 const openAboutWindow = require('about-window').default;
+
+// local libraries
+const menu = require('./browser/menu');
 
 const argv = minimist(process.argv.slice(2));
 
 const app = electron.app;
 // adds debug features like hotkeys for triggering dev tools and reload
-require('electron-debug')();
+electron_debug();
 
 // reload if any change is detected.
 electron_reload(__dirname);
@@ -38,7 +44,7 @@ function openWithFile(target_file, is_debug_mode) {
     log.error(`${target_file} does not exists.`);
     process.exit(1);
   }
-  setupMenu();
+  electron.Menu.setApplicationMenu(menu);
   if (is_debug_mode) {
     mainWindow.webContents.openDevTools();
   }
@@ -100,31 +106,10 @@ function createMainWindow() {
   return win;
 }
 
-function setupMenu() {
-  const menu_template = [
-    {
-      label: 'm',
-      submenu: [
-        {
-          label: 'About m',
-          click: function() { showAboutApplication(); }
-        },
-        {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          click: function() { app.quit(); }
-        }
-      ]
-    }
-  ];
-  const menu = electron.Menu.buildFromTemplate(menu_template);
-  electron.Menu.setApplicationMenu(menu);
-}
-
 function showAboutApplication() {
   openAboutWindow({
     icon_path: path.join(__dirname, 'resources/logo.png'),
-    copyright: 'Copyright (c) 2017 garaemon',
+    copyright: 'Copyright (c) 2017 garaemon'
   });
 };
 
