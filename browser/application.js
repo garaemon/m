@@ -73,9 +73,10 @@ class Application {
   }
 
   _run() {
-    if (!this.mainWindow) {
-      this._createMainWindow();
+    if (this.mainWindow) {
+      return;
     }
+    this._createMainWindow();
     const isDebugMode = this.args.debug;
     if (this.args._.length == 0) {
       electron.dialog.showOpenDialog(this.mainWindow, (filePaths) => {
