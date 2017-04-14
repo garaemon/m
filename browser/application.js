@@ -18,9 +18,6 @@ class Application {
     // adds debug features like hotkeys for triggering dev tools and reload
     electronDebug();
 
-    // reload if any change is detected.
-    electronReload(path.join(__dirname, '..'));
-
     this._setupLogger();
 
     this._registerAppCallbacks();
@@ -59,7 +56,7 @@ class Application {
     const htmlFile = `file://${__dirname}/../index.html`;
     win.loadURL(htmlFile);
     this.mainWindow = win;
-    win.on('closed', () => { this.onClosed(); });
+    win.on('closed', () => { this._onClosed(); });
     return win;
   }
 
@@ -73,9 +70,10 @@ class Application {
   }
 
   _run() {
-    if (!this.mainWindow) {
-      this._createMainWindow();
+    if (this.mainWindow) {
+      return;
     }
+    this._createMainWindow();
     const isDebugMode = this.args.debug;
     if (this.args._.length == 0) {
       electron.dialog.showOpenDialog(this.mainWindow, (filePaths) => {
@@ -98,7 +96,7 @@ class Application {
       process.exit(1);
     }
 
-    electron.Menu.setApplicationMenu(Menu());
+    electron.Menu.setApplicationMenu(Menu(this));
     if (isDebugMode) {
       this.mainWindow.webContents.openDevTools();
     }
@@ -118,7 +116,7 @@ class Application {
         electron.clipboard.writeText(arg);
       }
     });
-
+    electronReload(path.join(__dirname, '..'));
   }
 
   // Callback methods
@@ -134,8 +132,7 @@ class Application {
    * Callback method when 'activate' event of electron.app is fired.
    */
   _onActivate() {
-    log.info('_onActivate');
-    if (this.mainWindow) {
+    if (!this.mainWindow) {
       this.mainWindow = this._createMainWindow();
     }
   }
@@ -153,7 +150,6 @@ class Application {
    * callback method when 'ready' event of electron.app is fired.
    */
   _onReady() {
-    log.info('_onReady');
     this._run();
   }
 }
