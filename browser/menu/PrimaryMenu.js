@@ -1,22 +1,21 @@
-const path = require('path');
-
-const openAboutWindow = require('about-window').default;
+const electron = require('electron');
 
 const Menu = require('./Menu.js');
 
 class PrimaryMenu extends Menu {
   constructor(app) {
     super();
+    this.app = app;
     this.label = 'm';
     this.items = [
       {
         label: 'About m',
-        click: () => { app.showAboutApplication(); }
+        click: () => { this.app.showAboutApplication(); }
       },
       {
         label: 'Quit',
         accelerator: 'Command+Q',
-        click: function() { app.quit(); }
+        click: () => { electron.app.quit(); }
       }
     ];
   }
