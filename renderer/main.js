@@ -5,10 +5,10 @@
 // BrowserProcess will send file to watch via ipc 'notify-file' event.
 
 const electron = require('electron');
-const markdown_renderer = electron.remote.require('./lib/markdown_renderer.js');
+const markdown_renderer = electron.remote.require('./browser/markdown_renderer.js');
 const path = electron.remote.require('path');
 
-const frontend_plugins = require('./lib/frontend_plugins.js');
+const frontend_plugins = require('./renderer/frontend_plugins.js');
 
 const ipcRenderer = electron.ipcRenderer;
 
