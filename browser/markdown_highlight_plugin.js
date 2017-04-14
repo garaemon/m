@@ -53,8 +53,8 @@ class MathjaxHighlighter {
 class DefaultHighlighter {
   highlight(code, lang, callback) {
     try {
-      const highlighted_html = highlightjs.highlight(lang, code).value;
-      callback(null, null, highlighted_html);
+      const highlightedHtml = highlightjs.highlight(lang, code).value;
+      callback(null, null, highlightedHtml);
     } catch (e) {
       callback(null, 'highlight.js error: ' + e.message, code);
     }
@@ -66,8 +66,8 @@ class DefaultHighlighter {
  */
 class MermaidHighlighter {
   highlight(code, lang, callback) {
-    const encoded_code = he.encode(code);
-    callback(null, null, `<div class="mermaid">${encoded_code}</div>`);
+    const encodedCode = he.encode(code);
+    callback(null, null, `<div class="mermaid">${encodedCode}</div>`);
   }
 }
 

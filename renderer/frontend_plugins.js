@@ -10,11 +10,11 @@ class FrontendPlugin {
 }
 
 // Global variable to check if mermeid is initialized.
-var is_mermaid_initialized = false;
+var isMermaidInitialized = false;
 
 class MermaidFrontendPlugin extends FrontendPlugin {
   runPreprocess() {
-    if (!is_mermaid_initialized) {
+    if (!isMermaidInitialized) {
       console.log('Initialize mermaid');
       mermaidAPI.initialize({
         startOnLoad: true,
@@ -24,16 +24,16 @@ class MermaidFrontendPlugin extends FrontendPlugin {
       //     htmLabels: false
       //   }
       // });
-      is_mermaid_initialized = true;
+      isMermaidInitialized = true;
     }
   }
 
   runPostprocess() {
-    const mermaid_elements = document.querySelectorAll('.markdown-body > pre > code > div.mermaid');
-    console.log(`${mermaid_elements.length} mermaid elements are found`);
-    mermaid_elements.forEach(function(element, index) {
-      const mermaid_code = he.decode(element.innerHTML);
-      mermaidAPI.render(`rendered-mermaid-${index}`, mermaid_code, function(svg) {
+    const mermaidElements = document.querySelectorAll('.markdown-body > pre > code > div.mermaid');
+    console.log(`${mermaidElements.length} mermaid elements are found`);
+    mermaidElements.forEach(function(element, index) {
+      const mermaidCode = he.decode(element.innerHTML);
+      mermaidAPI.render(`rendered-mermaid-${index}`, mermaidCode, function(svg) {
         element.innerHTML = svg;
       });
     });

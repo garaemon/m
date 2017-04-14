@@ -15,12 +15,12 @@ class ImagePathFixer extends MarkdownPostProcessor {
     const basedir = path.dirname(filename);
     // relative src path in img tag should be resolved from basedir.
     $('img').each(function(index, element) {
-      const image_src = $(this).attr('src');
-      if (!(image_src.startsWith('http://') ||
-            image_src.startsWith('https://') ||
-            image_src.startsWith('file://') ||
-            image_src.startsWith('/'))) {
-        $(this).attr('src', path.join(basedir, image_src));
+      const imageSrc = $(this).attr('src');
+      if (!(imageSrc.startsWith('http://') ||
+            imageSrc.startsWith('https://') ||
+            imageSrc.startsWith('file://') ||
+            imageSrc.startsWith('/'))) {
+        $(this).attr('src', path.join(basedir, imageSrc));
       }
     });
     return $.html();

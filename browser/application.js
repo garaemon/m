@@ -10,7 +10,7 @@ const openAboutWindow = require('about-window').default;
 
 const log = require('winston');
 
-const menu = require('./menu');
+const Menu = require('./menu');
 
 class Application {
   constructor(commandLineArgs) {
@@ -63,11 +63,13 @@ class Application {
     return win;
   }
 
-  _showAboutApplication() {
+  showAboutApplication() {
+    /*eslint-disable camelcase*/
     openAboutWindow({
       icon_path: path.join(__dirname, '../resources/logo.png'),
       copyright: 'Copyright (c) 2017 garaemon'
     });
+    /*eslint-enable camelcase*/
   }
 
   _run() {
@@ -90,23 +92,24 @@ class Application {
     }
   }
 
-  _openWithFile(target_file, is_debug_mode) {
-    if (!fs.existsSync(target_file)) {
-      log.error(`${target_file} does not exists.`);
+  _openWithFile(targetFile, isDebugMode) {
+    if (!fs.existsSync(targetFile)) {
+      log.error(`${targetFile} does not exists.`);
       process.exit(1);
     }
-    electron.Menu.setApplicationMenu(menu);
-    if (is_debug_mode) {
+
+    electron.Menu.setApplicationMenu(Menu());
+    if (isDebugMode) {
       this.mainWindow.webContents.openDevTools();
     }
     this.mainWindow.webContents.on('did-finish-load', () => {
-      log.info(`send notify-file event to open ${target_file}`);
-      this.mainWindow.send('notify-file', target_file);
+      log.info(`send notify-file event to open ${targetFile}`);
+      this.mainWindow.send('notify-file', targetFile);
     });
     // start watching file
-    fs.watch(target_file, function() {
-      log.info(`detect change on ${target_file}`);
-      this.mainWindow.send('notify-file', target_file);
+    fs.watch(targetFile, function() {
+      log.info(`detect change on ${targetFile}`);
+      this.mainWindow.send('notify-file', targetFile);
     });
     electron.ipcMain.on('copy-to-clipboard', function(event, arg) {
       if (arg) {
