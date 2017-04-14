@@ -18,9 +18,6 @@ class Application {
     // adds debug features like hotkeys for triggering dev tools and reload
     electronDebug();
 
-    // reload if any change is detected.
-    electronReload(path.join(__dirname, '..'));
-
     this._setupLogger();
 
     this._registerAppCallbacks();
@@ -119,7 +116,7 @@ class Application {
         electron.clipboard.writeText(arg);
       }
     });
-
+    electronReload(path.join(__dirname, '..'));
   }
 
   // Callback methods
