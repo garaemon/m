@@ -96,7 +96,7 @@ class Application {
       process.exit(1);
     }
 
-    electron.Menu.setApplicationMenu(Menu());
+    electron.Menu.setApplicationMenu(Menu(this));
     if (isDebugMode) {
       this.mainWindow.webContents.openDevTools();
     }
