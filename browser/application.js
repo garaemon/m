@@ -153,7 +153,6 @@ class Application {
    * callback method when 'ready' event of electron.app is fired.
    */
   _onReady() {
-    log.info('_onReady');
     this._run();
   }
 }
