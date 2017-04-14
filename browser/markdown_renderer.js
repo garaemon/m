@@ -115,13 +115,12 @@ class MarkdownRenderer {
    */
   render(file, callback) {
     this.setupMarkedOptions();
-    const self = this;
-    fs.readFile(file, 'utf8', function(err, text) {
+    fs.readFile(file, 'utf8', (err, text) => {
       if (err != null) {
         callback(err, null);
       } else {
-        marked(text, function(err, markdownHtml) {
-          const renderedHtml = self.runPostProcessForMarkdownHTML(markdownHtml, file);
+        marked(text, (err, markdownHtml) => {
+          const renderedHtml = this.runPostProcessForMarkdownHTML(markdownHtml, file);
           const tocHtml = marked(toc(text, {firsth1: true}));
           callback(err, {'contents': renderedHtml, 'toc': tocHtml});
         });
