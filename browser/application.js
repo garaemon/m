@@ -59,7 +59,7 @@ class Application {
     const htmlFile = `file://${__dirname}/../index.html`;
     win.loadURL(htmlFile);
     this.mainWindow = win;
-    win.on('closed', () => { this.onClosed(); });
+    win.on('closed', () => { this._onClosed(); });
     return win;
   }
 
