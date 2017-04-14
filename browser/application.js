@@ -135,8 +135,7 @@ class Application {
    * Callback method when 'activate' event of electron.app is fired.
    */
   _onActivate() {
-    log.info('_onActivate');
-    if (this.mainWindow) {
+    if (!this.mainWindow) {
       this.mainWindow = this._createMainWindow();
     }
   }
