@@ -39,7 +39,7 @@ class MathjaxHighlighter {
       format: 'TeX', // 'inline-TeX', 'MathML'
       renderer: 'SVG',
       svg: true
-    }, function (data) {
+    }, (data) => {
       if (data.errors) {
         callback(null, data.errors[0], code);
       } else {
