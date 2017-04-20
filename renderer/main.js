@@ -47,6 +47,11 @@ ipcRenderer.on('notify-error', function(event, error) {
   }
 });
 
+ipcRenderer.on('toggle-toc', function(event, error) {
+  const mainView = document.getElementById('main-view');
+  mainView.toggleTOC();
+});
+
 // Initialize
 for (let i = 0; i < frontendPlugins.plugins.length; ++i) {
     frontendPlugins.plugins[i].runPreprocess();

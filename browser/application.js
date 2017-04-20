@@ -62,6 +62,10 @@ class Application {
     return win;
   }
 
+  toggleTOC() {
+    this.mainWindow.send('toggle-toc');
+  }
+
   showAboutApplication() {
     /*eslint-disable camelcase*/
     openAboutWindow({
