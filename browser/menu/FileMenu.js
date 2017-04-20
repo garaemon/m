@@ -1,3 +1,5 @@
+const log = require('winston');
+
 const Menu = require('./Menu.js');
 
 class FileMenu extends Menu {
@@ -8,7 +10,14 @@ class FileMenu extends Menu {
       {
         label: 'Open a new file',
         click: function() {
-
+          app.openFileDialog((err, file) => {
+            if (err != null) {
+              // TODO: show pop up error dialog
+              log.error('no such file');
+            } else {
+              app.notifyFile(file);
+            }
+          });
         }
       }
     ];
