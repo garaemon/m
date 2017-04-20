@@ -56,6 +56,8 @@ class Application {
     const htmlFile = `file://${__dirname}/../index.html`;
     win.loadURL(htmlFile);
     this.mainWindow = win;
+    electron.Menu.setApplicationMenu(Menu(this));
+
     win.on('closed', () => { this._onClosed(); });
     return win;
   }
@@ -69,14 +71,9 @@ class Application {
     /*eslint-enable camelcase*/
   }
 
-  _run() {
-    if (this.mainWindow) {
-      return;
-    }
-    this._createMainWindow();
-    const isDebugMode = this.args.debug;
-    if (this.args._.length == 0) {
-      electron.dialog.showOpenDialog(this.mainWindow, {
+  openFileDialog(callback) {
+    log.info('openFileDialog');
+    electron.dialog.showOpenDialog(this.mainWindow, {
         title: 'Choose a file',
         defaultPath: '.',
         filters: [
@@ -85,36 +82,58 @@ class Application {
         properties: ['openFile']
       }, (filePaths) => {
         if (!filePaths || filePaths.length != 1) {
-          log.error(`Please choose one file`);
+          callback(new Error(`Please choose one file`), null);
+        } else {
+          callback(null, filePaths[0]);
+        }
+      });
+  }
+
+  _run() {
+    if (this.mainWindow) {
+      return;
+    }
+    this._createMainWindow();
+    if (this.args._.length == 0) {
+      this.openFileDialog((err, file) => {
+        if (err != null) {
+          log.error(err.message);
           process.exit(1);
         } else {
-          this._openWithFile(filePaths[0], isDebugMode);
+          this.notifyFile(file);
         }
       });
     } else {
       const targetFile = this.args._[0];
-      this._openWithFile(targetFile, isDebugMode);
+      this._openWithFile(targetFile);
     }
   }
 
-  _openWithFile(targetFile, isDebugMode) {
+  notifyFile(file) {
+    this.mainWindow.send('notify-file', file);
+  }
+
+  _isDebugMode() {
+    return this.args.debug;
+  }
+
+  _openWithFile(targetFile) {
     if (!fs.existsSync(targetFile)) {
       log.error(`${targetFile} does not exists.`);
       process.exit(1);
     }
 
-    electron.Menu.setApplicationMenu(Menu(this));
-    if (isDebugMode) {
+    if (this._isDebugMode()) {
       this.mainWindow.webContents.openDevTools();
     }
     this.mainWindow.webContents.on('did-finish-load', () => {
       log.info(`send notify-file event to open ${targetFile}`);
-      this.mainWindow.send('notify-file', targetFile);
+      this.notifyFile(targetFile);
     });
     // start watching file
     fs.watch(targetFile, () => {
       log.info(`detect change on ${targetFile}`);
-      this.mainWindow.send('notify-file', targetFile);
+      this.notifyFile(targetFile);
     });
     electron.ipcMain.on('copy-to-clipboard', (event, arg) => {
       if (arg) {
