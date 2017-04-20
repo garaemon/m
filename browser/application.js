@@ -76,7 +76,14 @@ class Application {
     this._createMainWindow();
     const isDebugMode = this.args.debug;
     if (this.args._.length == 0) {
-      electron.dialog.showOpenDialog(this.mainWindow, (filePaths) => {
+      electron.dialog.showOpenDialog(this.mainWindow, {
+        title: 'Choose a file',
+        defaultPath: '.',
+        filters: [
+          {name: 'markdown file', extensions: ['md']}
+        ],
+        properties: ['openFile']
+      }, (filePaths) => {
         if (!filePaths || filePaths.length != 1) {
           log.error(`Please choose one file`);
           process.exit(1);
@@ -105,11 +112,11 @@ class Application {
       this.mainWindow.send('notify-file', targetFile);
     });
     // start watching file
-    fs.watch(targetFile, function() {
+    fs.watch(targetFile, () => {
       log.info(`detect change on ${targetFile}`);
       this.mainWindow.send('notify-file', targetFile);
     });
-    electron.ipcMain.on('copy-to-clipboard', function(event, arg) {
+    electron.ipcMain.on('copy-to-clipboard', (event, arg) => {
       if (arg) {
         log.info(`write to clipboard: ${arg}`);
         // CAVEAT: writeText does not work in tmux environment on OS X.
