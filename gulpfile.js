@@ -66,8 +66,8 @@ gulp.task('icon', () => {
 
 function buildElectronPackagerCommands(platforms) {
   return platforms.map((platform) => {
-    return `electron-packager . m --platform=${platform} --arch=x64 --icon=${iconPath}` +
-      `--overwrite --out build`;
+    return `electron-packager . m --platform=${platform} --arch=x64 --icon=${iconPath} ` +
+      `--overwrite --out dist/build`;
   });
 }
 const electronBuildCommands = buildElectronPackagerCommands(['darwin']);
