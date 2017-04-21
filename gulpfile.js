@@ -72,7 +72,6 @@ function buildElectronPackagerCommands(platforms) {
 }
 const electronBuildCommands = buildElectronPackagerCommands(['darwin']);
 
-console.log(electronBuildCommands);
 electronBuildCommands.forEach((command) => {
   gulp.task(command, ['icon'], () => {
     return gulp.src('')

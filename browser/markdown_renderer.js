@@ -33,7 +33,8 @@ class MarkdownRenderer {
       'default': new HighlightPlugin.DefaultHighlighter(),
       'undefined': new HighlightPlugin.UndefinedHighlighter(),
       'mathjax': new HighlightPlugin.MathjaxHighlighter(),
-      'mermaid': new HighlightPlugin.MermaidHighlighter()
+      'mermaid': new HighlightPlugin.MermaidHighlighter(),
+      'flowchart.js': new HighlightPlugin.FlowchartJSHighlighter()
     };
   }
 

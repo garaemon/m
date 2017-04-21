@@ -70,7 +70,15 @@ class MermaidHighlighter {
   }
 }
 
+class FlowchartJSHighlighter {
+  highlight(code, lang, callback) {
+    const encodedCode = he.encode(code);
+    callback(null, null, `<div class="flowchart-js">${encodedCode}</div>`);
+  }
+}
+
 module.exports.DefaultHighlighter = DefaultHighlighter;
 module.exports.UndefinedHighlighter = UndefinedHighlighter;
 module.exports.MathjaxHighlighter = MathjaxHighlighter;
 module.exports.MermaidHighlighter = MermaidHighlighter;
+module.exports.FlowchartJSHighlighter = FlowchartJSHighlighter;
