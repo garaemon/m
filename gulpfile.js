@@ -14,35 +14,7 @@ const iconPath = 'dist/icon.icns';
 
 gulp.task('lint', () => {
   return gulp.src(jsSources)
-    .pipe($.eslint({
-      env: {
-        browser: true,
-        node: true,
-      },
-      extends: 'eslint:recommended',
-      globals: [
-        '__dirname',
-        'console',
-        'document',
-        'he',
-        'mermaidAPI',
-        'module',
-        'process',
-        'require',
-      ],
-      parserOptions: {
-        ecmaVersion: 6
-      },
-      rules: {
-        'block-spacing': 2,
-        'camelcase': 2,
-        'no-multiple-empty-lines': ['error', {'max': 2}],
-        'no-undef': 'error',
-        'no-unused-vars': ['error', {'args': 'none'}],
-        // 'sort-keys': ['error', 'asc', {'caseSensitive': false}],
-        'strict': 0,
-      },
-    }))
+    .pipe($.eslint())
     .pipe($.eslint.format());
 });
 
@@ -67,7 +39,7 @@ gulp.task('icon', () => {
 function buildElectronPackagerCommands(platforms) {
   return platforms.map((platform) => {
     return `electron-packager . m --platform=${platform} --arch=x64 --icon=${iconPath} ` +
-      `--overwrite --out dist/build`;
+      '--overwrite --out dist/build';
   });
 }
 const electronBuildCommands = buildElectronPackagerCommands(['darwin']);

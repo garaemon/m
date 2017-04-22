@@ -29,9 +29,9 @@ class Application {
   _setupLogger() {
     log.addColors({
       debug: 'green',
-      info:  'cyan',
+      info: 'cyan',
       silly: 'magenta',
-      warn:  'yellow',
+      warn: 'yellow',
       error: 'red'
     });
 
@@ -78,19 +78,19 @@ class Application {
   openFileDialog(callback) {
     log.info('openFileDialog');
     electron.dialog.showOpenDialog(this.mainWindow, {
-        title: 'Choose a file',
-        defaultPath: '.',
-        filters: [
-          {name: 'markdown file', extensions: ['md']}
-        ],
-        properties: ['openFile']
-      }, (filePaths) => {
-        if (!filePaths || filePaths.length != 1) {
-          callback(new Error(`Please choose one file`), null);
-        } else {
-          callback(null, filePaths[0]);
-        }
-      });
+      title: 'Choose a file',
+      defaultPath: '.',
+      filters: [
+        {name: 'markdown file', extensions: ['md']}
+      ],
+      properties: ['openFile']
+    }, (filePaths) => {
+      if (!filePaths || filePaths.length != 1) {
+        callback(new Error('Please choose one file'), null);
+      } else {
+        callback(null, filePaths[0]);
+      }
+    });
   }
 
   _run() {

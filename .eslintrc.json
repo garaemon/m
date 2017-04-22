@@ -1,0 +1,41 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "ecmaFeatures": {
+    "arrowFunctions": true,
+    "blockBindings": true,
+    "classes": true,
+    "defaultParams": true,
+    "destructuring": true,
+    "forOf": true,
+    "generators": true,
+    "modules": true,
+    "spread": true,
+    "templateStrings": true
+  },
+  "rules": {
+    "block-spacing": 2,
+    "camelcase": 2,
+    "no-multiple-empty-lines": [2, {"max": 2}],
+    "no-undef": "error",
+    "no-unused-vars": [2, {"args": "none"}],
+    "strict": 0,
+    "indent": [2, 2, {"ArrayExpression": "first"}],
+    "quotes": [2, "single"],
+    "linebreak-style": [2, "unix"],
+    "semi": [2, "always"],
+    "no-var": 2,
+    "prefer-const": 2,
+    "no-spaced-func": 2,
+    "space-before-blocks": 2,
+    "key-spacing": [2, {
+      "beforeColon": false,
+      "afterColon" : true
+    }],
+    "no-console": 0
+  },
+  "extends": "eslint:recommended"
+}
