@@ -5,8 +5,8 @@ const fs = require('fs');
 const marked = require('marked');
 const toc = require('marked-toc');
 
-const HighlightPlugin = require('./markdown_highlight_plugin.js');
 const PostProcessor = require('./markdown_post_processor.js');
+const HighlightPlugins = require('./highlight-plugins');
 
 /**
  * MarkdownRenderer is a class to provide some static methods.
@@ -29,13 +29,7 @@ class MarkdownRenderer {
      * the keys of highlightPlugins are regarded as language name of
      * code blocks.
      */
-    this.highlightPlugins = {
-      'default': new HighlightPlugin.DefaultHighlighter(),
-      'undefined': new HighlightPlugin.UndefinedHighlighter(),
-      'mathjax': new HighlightPlugin.MathjaxHighlighter(),
-      'mermaid': new HighlightPlugin.MermaidHighlighter(),
-      'flowchart.js': new HighlightPlugin.FlowchartJSHighlighter()
-    };
+    this.highlightPlugins = HighlightPlugins;
   }
 
   /**
@@ -76,6 +70,7 @@ class MarkdownRenderer {
       return this.highlightPlugins['undefined'];
     } else {
       if (lang in this.highlightPlugins) {
+        // If specialized plugin is found, use that plugin
         return this.highlightPlugins[lang];
       } else {
         return this.highlightPlugins['default'];

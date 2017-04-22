@@ -24,6 +24,7 @@ gulp.task('lint', () => {
         '__dirname',
         'console',
         'document',
+        'flowchart',
         'he',
         'mermaidAPI',
         'module',
