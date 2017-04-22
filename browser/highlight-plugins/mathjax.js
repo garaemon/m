@@ -1,4 +1,4 @@
-const mjAPI = require("mathjax-node/lib/mj-single.js");
+const mjAPI = require('mathjax-node/lib/mj-single.js');
 
 const MarkdownHighlightPlugin = require('./markdown-highlight.js');
 

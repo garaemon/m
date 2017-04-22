@@ -22,7 +22,7 @@ function updateView(filename, content, toc) {
   for (let i = 0; i < frontendPlugins.plugins.length; ++i) {
     frontendPlugins.plugins[i].runPostprocess();
   }
-};
+}
 
 function showError(err) {
   // main-view should be an instance of <m-view>
@@ -33,7 +33,7 @@ function showError(err) {
 ipcRenderer.on('notify-file', function(event, file) {
   const renderer = new markdownRenderer.MarkdownRenderer();
   renderer.render(file, function(err, renderedResult) {
-    if (!!err) {
+    if (err) {
       showError(err);
     } else {
       updateView(file, renderedResult['contents'], renderedResult['toc']);
@@ -42,7 +42,7 @@ ipcRenderer.on('notify-file', function(event, file) {
 });
 
 ipcRenderer.on('notify-error', function(event, error) {
-  if (!!error) {
+  if (error) {
     showError(error);
   }
 });
@@ -54,5 +54,5 @@ ipcRenderer.on('toggle-toc', function(event, error) {
 
 // Initialize
 for (let i = 0; i < frontendPlugins.plugins.length; ++i) {
-    frontendPlugins.plugins[i].runPreprocess();
+  frontendPlugins.plugins[i].runPreprocess();
 }

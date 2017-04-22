@@ -36,9 +36,9 @@ class MarkdownRenderer {
    */
   computeCodeMetaInfoTag(code, lang, errors) {
     if (lang == undefined) {
-        return `<code-meta-info>${code}</code-meta-info>`;
+      return `<code-meta-info>${code}</code-meta-info>`;
     } else {
-      if (!!errors) {
+      if (errors) {
         return `<code-meta-info language="${lang}"
                                 error-string="${errors}">${code}</code-meta-info>`;
       } else {

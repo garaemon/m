@@ -1,3 +1,4 @@
+/* global mermaidAPI, he, flowchart*/
 // This file is required from frontend process.
 
 function buildSelectorForCodeBlock(classSelector) {
@@ -14,14 +15,14 @@ class FrontendPlugin {
 }
 
 // Global variable to check if mermeid is initialized.
-var isMermaidInitialized = false;
+let isMermaidInitialized = false;
 
 class MermaidFrontendPlugin extends FrontendPlugin {
   runPreprocess() {
     if (!isMermaidInitialized) {
       console.log('Initialize mermaid');
       mermaidAPI.initialize({
-        startOnLoad: true,
+        startOnLoad: true
       });
       // mermaid.initialize({
       //   flowchart: {
