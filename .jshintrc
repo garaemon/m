@@ -1,9 +1,0 @@
-{
-  "indent": 4,
-  "node": true,
-  "browser": true,
-  "undef": true,
-  "esnext": true,
-  "globals": {
-  }
-}
