@@ -5,6 +5,10 @@ function buildSelectorForCodeBlock(classSelector) {
   return `.markdown-body > pre > code > div.${classSelector}`;
 }
 
+function getCodeBlockElements(classSelector) {
+  return document.querySelectorAll(buildSelectorForCodeBlock(classSelector));
+}
+
 class FrontendPlugin {
   runPreprocess() {
   }
@@ -24,17 +28,12 @@ class MermaidFrontendPlugin extends FrontendPlugin {
       mermaidAPI.initialize({
         startOnLoad: true
       });
-      // mermaid.initialize({
-      //   flowchart: {
-      //     htmLabels: false
-      //   }
-      // });
       isMermaidInitialized = true;
     }
   }
 
   runPostprocess() {
-    const mermaidElements = document.querySelectorAll(buildSelectorForCodeBlock('mermaid'));
+    const mermaidElements = getCodeBlockElements('mermaid');
     console.log(`${mermaidElements.length} mermaid elements are found`);
     mermaidElements.forEach(function(element, index) {
       const mermaidCode = he.decode(element.innerHTML);
@@ -49,7 +48,7 @@ class FlowchartJSFrontendPlugin extends FrontendPlugin {
   runPreprocess() {
   }
   runPostprocess() {
-    const flowchartElements = document.querySelectorAll(buildSelectorForCodeBlock('flowchart-js'));
+    const flowchartElements = getCodeBlockElements('flowchart-js');
     console.log(`${flowchartElements.length} mermaid elements are found`);
     flowchartElements.forEach((element, index) => {
       const code = he.decode(element.innerHTML);
