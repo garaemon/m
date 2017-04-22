@@ -37,13 +37,7 @@ class CodeMetaInfoFixer extends MarkdownPostProcessor {
   }
 }
 
-class MermaidScriptProcessors extends MarkdownPostProcessor {
-  runPostProcess(html, file) {
-    return html;                // do nothing
-  }
-}
 module.exports = {
   ImagePathFixer: ImagePathFixer,
-  CodeMetaInfoFixer: CodeMetaInfoFixer,
-  MermaidScriptProcessors: MermaidScriptProcessors
+  CodeMetaInfoFixer: CodeMetaInfoFixer
 };

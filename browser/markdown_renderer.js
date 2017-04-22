@@ -19,8 +19,7 @@ class MarkdownRenderer {
      */
     this.postProcessPlugins = [
       new PostProcessor.ImagePathFixer(),
-      new PostProcessor.CodeMetaInfoFixer(),
-      new PostProcessor.MermaidScriptProcessors()
+      new PostProcessor.CodeMetaInfoFixer()
     ];
 
     /**
