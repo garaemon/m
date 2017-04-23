@@ -2,7 +2,7 @@ const electron = require('electron');
 
 const frontendPlugins = require('./frontend-plugins');
 
-const MarkdownRenderer = electron.remote.require('./browser/markdown_renderer.js');
+const MarkdownRenderer = electron.remote.require('./browser/markdown-renderer.js');
 
 // Application class for render process
 class RenderApplication {
