@@ -5,7 +5,7 @@ const fs = require('fs');
 const marked = require('marked');
 const toc = require('marked-toc');
 
-const PostProcessor = require('./markdown_post_processor.js');
+const postProcessPlugins = require('./post-process-plugins');
 const HighlightPlugins = require('./highlight-plugins');
 
 /**
@@ -18,8 +18,8 @@ class MarkdownRenderer {
      * post processing plugins
      */
     this.postProcessPlugins = [
-      new PostProcessor.ImagePathFixer(),
-      new PostProcessor.CodeMetaInfoFixer()
+      new postProcessPlugins.ImagePathFixPlugin(),
+      new postProcessPlugins.CodeMetaInfoFixPlugin()
     ];
 
     /**

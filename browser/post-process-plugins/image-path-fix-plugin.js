@@ -1,15 +1,10 @@
 const path = require('path');
 
-const log = require('winston');
 const cheerio = require('cheerio');
 
-class MarkdownPostProcessor {
-  runPostProcess(html, filename) {
-    log.error('runPostProcess should be overloaded');
-  }
-}
+const PostProcessPluginBase = require('./post-process-plugin-base.js');
 
-class ImagePathFixer extends MarkdownPostProcessor {
+class ImagePathFixPlugin extends PostProcessPluginBase {
   runPostProcess(html, filename) {
     const $ = cheerio.load(html);
     const basedir = path.dirname(filename);
@@ -27,17 +22,4 @@ class ImagePathFixer extends MarkdownPostProcessor {
   }
 }
 
-class CodeMetaInfoFixer extends MarkdownPostProcessor {
-  runPostProcess(html, file) {
-    const $ = cheerio.load(html);
-    $('pre code-meta-info').each(function(index, element) {
-      $(this).insertBefore($(this).parent().parent());
-    });
-    return $.html();
-  }
-}
-
-module.exports = {
-  ImagePathFixer: ImagePathFixer,
-  CodeMetaInfoFixer: CodeMetaInfoFixer
-};
+module.exports = ImagePathFixPlugin;
