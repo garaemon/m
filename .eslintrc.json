@@ -4,6 +4,9 @@
     "browser": true,
     "node": true
   },
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "ecmaFeatures": {
     "arrowFunctions": true,
     "blockBindings": true,

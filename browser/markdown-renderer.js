@@ -113,11 +113,15 @@ class MarkdownRenderer {
         marked(text, (err, markdownHtml) => {
           const renderedHtml = this.runPostProcessForMarkdownHTML(markdownHtml, file);
           const tocHtml = marked(toc(text, {firsth1: true}));
-          callback(err, {'contents': renderedHtml, 'toc': tocHtml});
+          callback(err, {
+            'contents': renderedHtml,
+            'toc': tocHtml,
+            'file': file
+          });
         });
       }
     });
   }
 }
 
-module.exports.MarkdownRenderer = MarkdownRenderer;
+module.exports = MarkdownRenderer;

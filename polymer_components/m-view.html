@@ -109,6 +109,12 @@
              return !this.file;
          },
 
+         updateView: function(renderedResult) {
+             this.file = renderedResult['file'];
+             this.setMarkdownHTML(renderedResult['contents']);
+             this.setTOCHTML(renderedResult['toc']);
+         },
+
          toggleTOC: function() {
              this.show_toc = !this.show_toc;
              if (this.show_toc) {
