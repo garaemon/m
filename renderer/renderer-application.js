@@ -1,6 +1,6 @@
 const electron = require('electron');
 
-const frontendPlugins = require('./frontend_plugins.js');
+const frontendPlugins = require('./frontend-plugins');
 
 const MarkdownRenderer = electron.remote.require('./browser/markdown_renderer.js');
 
