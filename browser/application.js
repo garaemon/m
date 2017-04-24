@@ -117,6 +117,10 @@ class Application {
     this.mainWindow.send('notify-file', file);
   }
 
+  print() {
+    this.mainWindow.webContents.print();
+  }
+
   _isDebugMode() {
     return this.args.debug;
   }

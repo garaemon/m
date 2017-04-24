@@ -13,6 +13,13 @@ class PrimaryMenu extends Menu {
         click: () => { this.app.showAboutApplication(); }
       },
       {
+        label: 'Print',
+        accelerator: 'Command+P',
+        click: () => {
+          this.app.print();
+        }
+      },
+      {
         label: 'Quit',
         accelerator: 'Command+Q',
         click: () => { electron.app.quit(); }
