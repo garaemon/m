@@ -64,10 +64,19 @@
          app-toolbar {
              padding-left: 0;
          }
+
+         @media print {
+             .no-print, .no-print * {
+                 display: none !important;
+             }
+             app-header, app-header-layout {
+                 height: 0px !important;
+             }
+         }
         </style>
         <app-header-layout>
-            <app-header fixed condenses>
-                <app-toolbar>
+            <app-header fixed condenses class="no-print">
+                <app-toolbar id="toolbar">
                     <h1 id="title">
                         <span id="title-word">{{file}}</span>
                     </h1>
