@@ -121,6 +121,21 @@ class Application {
     this.mainWindow.webContents.print();
   }
 
+  saveToPDF() {
+    this.mainWindow.webContents.printToPDF({}, (error, data) => {
+      if (error) throw error;
+      electron.dialog.showSaveDialog(this.mainWindow, {
+        title: 'Save file',
+        defaultPath: '.'
+      }, (filename) => {
+        fs.writeFile(filename, data, (error) => {
+          if (error) throw error;
+          log.info(`saved to ${filename}`);
+        });
+      });
+    });
+  }
+
   _isDebugMode() {
     return this.args.debug;
   }
