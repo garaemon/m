@@ -1,7 +1,8 @@
 'use strict';
 
-const minimist = require('minimist');
 const childProcess = require('child_process');
+
+const minimist = require('minimist');
 
 // local libraries
 const Application = require('./browser/application.js');
@@ -17,5 +18,6 @@ if (argv.detach) {
   }).unref();
   process.exit(0);
 } else {
-  new Application(argv);
+  const app = new Application(argv);
+  app.run();
 }

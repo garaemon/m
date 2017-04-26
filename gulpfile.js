@@ -9,7 +9,7 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
 const jsSources = ['index.js', 'gulpfile.js',
-                   './browser/**/*.js', './renderer/**/*.js'];
+                   './browser/**/*.js', './renderer/**/*.js', './polymer_components/*.html'];
 const iconPath = 'dist/icon.icns';
 
 gulp.task('lint', () => {

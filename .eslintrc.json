@@ -40,5 +40,11 @@
     }],
     "no-console": 0
   },
+  "plugins": [
+    "html"
+  ],
+  "globals": {
+    "Polymer": true
+  },
   "extends": "eslint:recommended"
 }

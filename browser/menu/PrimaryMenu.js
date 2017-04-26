@@ -20,6 +20,12 @@ class PrimaryMenu extends Menu {
         }
       },
       {
+        label: 'Export to PDF',
+        click: () => {
+          this.app.saveToPDF();
+        }
+      },
+      {
         label: 'Quit',
         accelerator: 'Command+Q',
         click: () => { electron.app.quit(); }
