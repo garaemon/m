@@ -12,141 +12,140 @@
 <link rel="import" href="code-meta-info.html">
 
 <dom-module id="m-view">
-    <template>
-        <style>
-         :root {
-             margin: 0 auto;
-             padding-left: 45px;
-             padding-right: 45px;
-             padding-top: 0px;
-         }
+  <template>
+    <style>
+     :root {
+       margin: 0 auto;
+       padding-left: 45px;
+       padding-right: 45px;
+       padding-top: 0px;
+     }
 
-         .toc {
-             margin-bottom: 20px;
-             border-bottom: 1px solid #ddd;
-         }
-         .toc.invisible {
-             display: none;
-         }
-         .toc.visible {
-             display: block;
-         }
+     .toc {
+       margin-bottom: 20px;
+       border-bottom: 1px solid #ddd;
+     }
+     .toc.invisible {
+       display: none;
+     }
+     .toc.visible {
+       display: block;
+     }
 
-         .toc h2 {
-             border-bottom: 1px solid #eee;
-         }
-         .markdown-content {
-             box-sizing: border-box;
-             margin: 0 auto;
-         }
+     .toc h2 {
+       border-bottom: 1px solid #eee;
+     }
+     .markdown-content {
+       box-sizing: border-box;
+       margin: 0 auto;
+     }
 
-         section {
-             margin-top: 0;
-             padding-top: 0;
-             padding-bottom: 20px;
-         }
-         app-header-layout {
-             height: 70px;
-             margin-top: 0px;
-         }
+     section {
+       margin-top: 0;
+       padding-top: 0;
+       padding-bottom: 20px;
+     }
+     app-header-layout {
+       height: 70px;
+       margin-top: 0px;
+     }
 
-         app-header {
-             background-color: white;
-             height: 70px;
-             padding-left: 20px;
-         }
+     app-header {
+       background-color: white;
+       height: 70px;
+       padding-left: 20px;
+     }
 
-         app-header h1 {
-             padding: 0;
-             margin: 0;
-         }
+     app-header h1 {
+       padding: 0;
+       margin: 0;
+     }
 
-         app-toolbar {
-             padding-left: 0;
-         }
+     app-toolbar {
+       padding-left: 0;
+     }
 
-         @media print {
-             .no-print, .no-print * {
-                 display: none !important;
-             }
-             app-header, app-header-layout {
-                 height: 0px !important;
-             }
-         }
-        </style>
-        <app-header-layout>
-            <app-header fixed condenses class="no-print">
-                <app-toolbar id="toolbar">
-                    <h1 id="title">
-                        <span id="title-word">{{file}}</span>
-                    </h1>
-                    <paper-tooltip position="top" for="title-word">
-                        {{fullpath}}
-                    </paper-tooltip>
-                </app-toolbar>
-            </app-header>
-            <section>
-            <div class="toc" id="toc">
-                <h2>
-                    Table of contents
-                </h2>
-                <div class="markdown-body" id="markdown-toc">
-                </div>
-            </div>
-            <div class="markdown-body" id="markdown-content">
-            </div>
-            <paper-dialog id="error_dialog" entry-animation="scale-up-animation"
-                          exit-animation="fade-out-animation">
-                {{error_contents}}
-            </paper-dialog>
-            </section>
-        </app-header-layout>
-    </template>
-    <script>
-     Polymer({
-         is: "m-view",
-         properties: {
-             file: String,
-             filename_fullpath: String,
-             show_toc: {
-                 type: Boolean,
-                 value: true
-             },
-         },
+     @media print {
+       .no-print, .no-print * {
+         display: none !important;
+       }
+       app-header, app-header-layout {
+         height: 0px !important;
+       }
+     }
+    </style>
+    <app-header-layout>
+      <app-header fixed condenses class="no-print">
+        <app-toolbar id="toolbar">
+          <h1 id="title">
+            <span id="title-word">{{file}}</span>
+          </h1>
+          <paper-tooltip position="top" for="title-word">
+            {{fullpath}}
+          </paper-tooltip>
+        </app-toolbar>
+      </app-header>
+      <section>
+        <div class="toc" id="toc">
+          <h2>
+            Table of contents
+          </h2>
+          <div class="markdown-body" id="markdown-toc">
+          </div>
+        </div>
+        <div class="markdown-body" id="markdown-content">
+        </div>
+        <paper-dialog id="error_dialog" entry-animation="scale-up-animation"
+                      exit-animation="fade-out-animation">
+          {{error_contents}}
+        </paper-dialog>
+      </section>
+    </app-header-layout>
+  </template>
+  <script>
+   Polymer({
+     is: 'm-view',
+     properties: {
+       file: String,
+       showToc: {
+         type: Boolean,
+         value: true
+       },
+     },
 
-         _hasFile: function() {
-             return !this.file;
-         },
+     _hasFile: function() {
+       return !this.file;
+     },
 
-         updateView: function(renderedResult) {
-             this.file = renderedResult['file'];
-             this.setMarkdownHTML(renderedResult['contents']);
-             this.setTOCHTML(renderedResult['toc']);
-         },
+     updateView: function(renderedResult) {
+       this.file = renderedResult['file'];
+       this.setMarkdownHTML(renderedResult['contents']);
+       this.setTOCHTML(renderedResult['toc']);
+     },
 
-         toggleTOC: function() {
-             this.show_toc = !this.show_toc;
-             if (this.show_toc) {
-                 this.$.toc.classList.add('visible');
-                 this.$.toc.classList.remove('invisible');
-             } else {
-                 this.$.toc.classList.remove('visible');
-                 this.$.toc.classList.add('invisible');
-             }
-         },
+     toggleTOC: function() {
+       this.showToc = !this.showToc;
+       if (this.showToc) {
+         this.$.toc.classList.add('visible');
+         this.$.toc.classList.remove('invisible');
+       } else {
+         this.$.toc.classList.remove('visible');
+         this.$.toc.classList.add('invisible');
+       }
+     },
 
-         setMarkdownHTML: function(content) {
-             document.getElementById('markdown-content').innerHTML = content;
-         },
+     setMarkdownHTML: function(content) {
+       document.getElementById('markdown-content').innerHTML = content;
+     },
 
-         setTOCHTML: function(toc) {
-             document.getElementById('markdown-toc').innerHTML = toc;
-         },
+     setTOCHTML: function(toc) {
+       document.getElementById('markdown-toc').innerHTML = toc;
+     },
 
-         showError: function(error) {
-             this.error_contents = error;
-             this.$.error_dialog.open();
-         },
-     });
-    </script>
+     showError: function(error) {
+       this.errorContents = error;
+       this.$.error_dialog.open();
+     },
+   });
+  </script>
 </dom-module>

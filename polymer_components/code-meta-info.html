@@ -8,105 +8,105 @@
 <link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
 <dom-module id="code-meta-info">
-    <template>
-        <style>
-         .code-block-meta-info {
-             white-space: normal;
-             background-color: #f7f7f7;
-         }
+  <template>
+    <style>
+     .code-block-meta-info {
+       white-space: normal;
+       background-color: #f7f7f7;
+     }
 
-         .original-code {
-             display: none;
-         }
+     .original-code {
+       display: none;
+     }
 
-         .language-label {
-             display: inline-block:
-             background-color: white;
-         }
+     .language-label {
+       display: inline-block:
+       background-color: white;
+     }
 
-         paper-icon-button {
-             height: 30px;
-             color: #4078c0;
-         }
+     paper-icon-button {
+       height: 30px;
+       color: #4078c0;
+     }
 
-         #show-error-button {
-             color: #ff2222;
-         }
+     #show-error-button {
+       color: #ff2222;
+     }
 
-         paper-dialog {
-             padding-left: 20px;
-             padding-right: 20px;
-         }
+     paper-dialog {
+       padding-left: 20px;
+       padding-right: 20px;
+     }
 
-         paper-dialog pre {
-             background-color: white;
-         }
+     paper-dialog pre {
+       background-color: white;
+     }
 
-        </style>
+    </style>
 
-        <div class="code-block-meta-info">
-            <div class="language-label">
-                <span class="language-label-name">
-                    {{language}}
-                </span>
-                    <paper-icon-button id="show-error-button"
-                                       icon="icons:error"
-                                       hidden$="[[!hasError]]"
-                                       on-click="_showError">
-                    </paper-icon-button>
-                    <paper-tooltip for="show-error-button">
-                        Show error
-                    </paper-tooltip>
-                    <paper-dialog id="error_dialog"
-                                  entry-animation="scale-up-animation"
-                                  exit-animation="fade-out-animation">
-                        <h3>Error in rendering code block</h3>
-                        <pre>{{errorString}}</pre>
-                    </paper-dialog>
-                <paper-icon-button id="show-code-button" icon="icons:code"
-                                   on-click="_showOriginalCode">
-                </paper-icon-button>
-                <paper-tooltip for="show-code-button">
-                    Show original code
-                </paper-tooltip>
-                <paper-dialog id="original_code_dialog"
-                              entry-animation="scale-up-animation"
-                              exit-animation="fade-out-animation">
-                    <h3>Original Code</h3>
-                    <pre><content></content></pre>
-                </paper-dialog>
-            </div>
-        </div>
-    </template>
-    <script>
-     Polymer({
-         is: 'code-meta-info',
+    <div class="code-block-meta-info">
+      <div class="language-label">
+        <span class="language-label-name">
+          {{language}}
+        </span>
+        <paper-icon-button id="show-error-button"
+                           icon="icons:error"
+                           hidden$="[[!hasError]]"
+                           on-click="_showError">
+        </paper-icon-button>
+        <paper-tooltip for="show-error-button">
+          Show error
+        </paper-tooltip>
+        <paper-dialog id="error_dialog"
+                      entry-animation="scale-up-animation"
+                      exit-animation="fade-out-animation">
+          <h3>Error in rendering code block</h3>
+          <pre>{{errorString}}</pre>
+        </paper-dialog>
+        <paper-icon-button id="show-code-button" icon="icons:code"
+                           on-click="_showOriginalCode">
+        </paper-icon-button>
+        <paper-tooltip for="show-code-button">
+          Show original code
+        </paper-tooltip>
+        <paper-dialog id="original_code_dialog"
+                      entry-animation="scale-up-animation"
+                      exit-animation="fade-out-animation">
+          <h3>Original Code</h3>
+          <pre><content></content></pre>
+        </paper-dialog>
+      </div>
+    </div>
+  </template>
+  <script>
+   Polymer({
+     is: 'code-meta-info',
 
-         properties: {
-             language: String,
+     properties: {
+       language: String,
 
-             errorString: {
-                 type: String,
-                 observer: '_errorStringChanged',
-             },
+       errorString: {
+         type: String,
+         observer: '_errorStringChanged',
+       },
 
-             hasError: {
-                 type: Boolean,
-                 value: false,
-             }
-         },
+       hasError: {
+         type: Boolean,
+         value: false,
+       }
+     },
 
-         _showOriginalCode: function() {
-             this.$.original_code_dialog.open();
-         },
+     _showOriginalCode: function() {
+       this.$.original_code_dialog.open();
+     },
 
-         _showError: function() {
-             this.$.error_dialog.open();
-         },
+     _showError: function() {
+       this.$.error_dialog.open();
+     },
 
-         _errorStringChanged: function() {
-             this.hasError = true;
-         },
-     });
-    </script>
+     _errorStringChanged: function() {
+       this.hasError = true;
+     },
+   });
+  </script>
 </dom-module>
