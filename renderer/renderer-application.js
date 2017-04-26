@@ -44,6 +44,7 @@ class RenderApplication {
       } else {
         mainView.updateView(renderedResult);
         this.runPostprocessPlugins();
+        electron.ipcRenderer.send('rendered');
       }
     });
   }

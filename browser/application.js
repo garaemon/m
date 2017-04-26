@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const _  = require('lodash');
 const electron = require('electron');
 const electronReload = require('electron-reload');
 const electronDebug = require('electron-debug');
@@ -48,11 +49,11 @@ class Application {
     electron.app.on('ready', () => { this._onReady(); });
   }
 
-  _createMainWindow() {
-    const win = new electron.BrowserWindow({
+  _createMainWindow(options = {}) {
+    const win = new electron.BrowserWindow(_.merge({
       width: 1200,
       height: 800
-    });
+    }, options));
     const htmlFile = `file://${__dirname}/../index.html`;
     win.loadURL(htmlFile);
     this.mainWindow = win;
@@ -121,16 +122,27 @@ class Application {
     this.mainWindow.webContents.print();
   }
 
-  saveToPDF() {
-    this.mainWindow.webContents.printToPDF({}, (error, data) => {
-      if (error) throw error;
+  _openSaveDialogIfNotFileSpecified(targetFile, callback) {
+    if (targetFile) {
+      callback(targetFile);
+    } else {
       electron.dialog.showSaveDialog(this.mainWindow, {
         title: 'Save file',
         defaultPath: '.'
       }, (filename) => {
+        callback(filename);
+      });
+    }
+  }
+
+  saveToPDF(targetFile, callback = function() {}) {
+    this.mainWindow.webContents.printToPDF({}, (error, data) => {
+      if (error) throw error;
+      this._openSaveDialogIfNotFileSpecified(targetFile, (filename) => {
         fs.writeFile(filename, data, (error) => {
           if (error) throw error;
           log.info(`saved to ${filename}`);
+          callback();
         });
       });
     });
@@ -163,6 +175,13 @@ class Application {
         log.info(`write to clipboard: ${arg}`);
         // CAVEAT: writeText does not work in tmux environment on OS X.
         electron.clipboard.writeText(arg);
+      }
+    });
+    electron.ipcMain.on('rendered', () => {
+      if (this.args['save-to-pdf']) {
+        this.saveToPDF(this.args['save-to-pdf'], () => {
+          process.exit(0);
+        });
       }
     });
     electronReload(path.join(__dirname, '..'));
@@ -200,6 +219,10 @@ class Application {
    */
   _onReady() {
     this._run();
+  }
+
+  run() {
+    // do nothing
   }
 }
 
