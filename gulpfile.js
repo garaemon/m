@@ -45,13 +45,22 @@ gulp.task('icon', () => {
     }));
 });
 
+function getPlatformDependendOption(platform) {
+  if (platform == 'darwin') {
+    return `--icon=${iconPath}`;
+  } else {
+    return '';
+  }
+}
+
 function buildElectronPackagerCommands(platforms) {
   return platforms.map((platform) => {
-    return `electron-packager . m --platform=${platform} --arch=x64 --icon=${iconPath} ` +
+    const platformDependendOption = getPlatformDependendOption(platform);
+    return `electron-packager . m --platform=${platform} --arch=x64 ${platformDependendOption} ` +
       '--overwrite --out dist/build';
   });
 }
-const electronBuildCommands = buildElectronPackagerCommands(['darwin']);
+const electronBuildCommands = buildElectronPackagerCommands(['darwin', 'linux']);
 
 electronBuildCommands.forEach((command) => {
   gulp.task(command, ['icon'], () => {
@@ -69,6 +78,6 @@ electronBuildCommands.forEach((command) => {
 
 gulp.task('build', electronBuildCommands);
 
-gulp.task('test', ['lint-fail-on-error']);
+gulp.task('test', ['lint-fail-on-error', 'build']);
 
 gulp.task('default', ['lint']);
