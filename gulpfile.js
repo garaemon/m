@@ -57,6 +57,11 @@ electronBuildCommands.forEach((command) => {
       }));
   });
 });
+
 gulp.task('build', electronBuildCommands);
+
+gulp.task('test', () => {
+  // do nothing
+});
 
 gulp.task('default', ['lint']);
