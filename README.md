@@ -1,4 +1,4 @@
-# m
+# m [![Build Status](https://travis-ci.org/garaemon/m.svg?branch=master)](https://travis-ci.org/garaemon/m)
 
 `m` is an electron app to render markdown file.
 
