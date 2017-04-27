@@ -1,0 +1,18 @@
+language: node_js
+sudo: false
+cache:
+  directories:
+    - node_modules
+    - bower_components
+node_js:
+  - "6.9.0"
+  - "6.10.0"
+  - "7.9.0"
+before_install:
+  - npm install -g bower
+  - npm install -g gulp
+install:
+  - npm install
+  - bower install
+script:
+  - npm test
