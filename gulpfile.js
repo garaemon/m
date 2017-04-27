@@ -12,10 +12,19 @@ const jsSources = ['index.js', 'gulpfile.js',
                    './browser/**/*.js', './renderer/**/*.js', './polymer_components/*.html'];
 const iconPath = 'dist/icon.icns';
 
-gulp.task('lint', () => {
-  return gulp.src(jsSources)
+function getJavascriptLintDefaultTask(sources) {
+  return gulp.src(sources)
     .pipe($.eslint())
     .pipe($.eslint.format());
+}
+
+gulp.task('lint', () => {
+  return getJavascriptLintDefaultTask(jsSources);
+});
+
+gulp.task('lint-fail-on-error', () => {
+  return getJavascriptLintDefaultTask(jsSources)
+    .pipe($.eslint.failOnError());
 });
 
 gulp.task('watch', ['lint'], () => {
@@ -60,8 +69,6 @@ electronBuildCommands.forEach((command) => {
 
 gulp.task('build', electronBuildCommands);
 
-gulp.task('test', () => {
-  // do nothing
-});
+gulp.task('test', ['lint-fail-on-error']);
 
 gulp.task('default', ['lint']);
