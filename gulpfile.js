@@ -69,6 +69,6 @@ electronBuildCommands.forEach((command) => {
 
 gulp.task('build', electronBuildCommands);
 
-gulp.task('test', ['lint-fail-on-error']);
+gulp.task('test', ['lint-fail-on-error', 'build']);
 
 gulp.task('default', ['lint']);
