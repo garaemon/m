@@ -105,16 +105,14 @@
   <script>
    Polymer({
      is: 'm-view',
+
      properties: {
        file: String,
+
        showToc: {
          type: Boolean,
          value: true
        },
-     },
-
-     _hasFile: function() {
-       return !this.file;
      },
 
      updateView: function(renderedResult) {
