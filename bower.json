@@ -27,6 +27,7 @@
     "app-elements": "^0.10.1",
     "iron-elements": "^1.0.10",
     "neon-animation": "^1.2.4",
-    "he": "^1.1.1"
+    "he": "^1.1.1",
+    "iron-a11y-keys": "PolymerElements/iron-a11y-keys#^1.0.7"
   }
 }

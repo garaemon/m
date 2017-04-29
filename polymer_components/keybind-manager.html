@@ -1,0 +1,130 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="keybind-manager">
+  <template>
+    <style>
+    </style>
+  </template>
+  <script>
+   Polymer({
+     is: 'keybind-manager',
+
+     properties: {
+       keymap: {
+         type: Object,
+         value: {
+           'j': '_scrollDownOneLine',
+           'k': '_scrollUpOneLine',
+           'C+n': '_scrollDownOneLine',
+           'C+p': '_scrollUpOneLine',
+         },
+       },
+
+       scrollLineHeight: {
+         type: Number,
+         value: 20,
+       },
+
+       isMetaPressed: {
+         type: Boolean,
+       },
+
+       isShiftPressed: {
+         type: Boolean,
+       },
+
+       isControlPressed: {
+         type: Boolean,
+       },
+
+       isTabPressed: {
+         type: Boolean,
+       },
+
+     },
+
+     ready: function() {
+       document.onkeydown = (e) => {
+         this.handleModifierKeyDown(e.key);
+         this.callKeybindCallback(e.key);
+       };
+       document.onkeyup = (e) => {
+         this.handleModifierKeyUp(e.key);
+       };
+     },
+
+     _handleModifierKey: function(key, value) {
+       if (key == 'Meta') {
+         this.isMetaPressed = value;
+       } else if (key == 'Control') {
+         this.isControlPressed = value;
+       } else if (key == 'Shift') {
+         this.isShiftPressed = value;
+       } else if (key == 'Tab') {
+         this.isTabPressed = value;
+       }
+     },
+
+     handleModifierKeyDown: function(key) {
+       this._handleModifierKey(key, true);
+     },
+
+     handleModifierKeyUp: function(key) {
+       this._handleModifierKey(key, false);
+     },
+
+     _getKeybindcallbackfunctionInternal: function(key) {
+       if (_.has(this.keymap, key)) {
+         if (this.keymap[key] in this) {
+           return this[this.keymap[key]];
+         }
+       }
+       return null;
+     },
+
+     _isModifierKeyPressed: function() {
+       return this.isMetaPressed || this.isControlPressed ||
+              this.isShiftPressed || this.isTabPressed;
+     },
+
+     _addModifierKey: function(key) {
+       if (this.isMetaPressed) {
+         return `M+${key}`;
+       } else if (this.isControlPressed) {
+         return `C+${key}`;
+       } else if (this.isShiftPressed) {
+         return 'S+${key}';
+       } else if (this.isTabPressed) {
+         return `T+${key}`;
+       } else {
+         throw new Error('meta key is not pressed');
+       }
+     },
+
+     getKeybindCallbackFunction: function(key) {
+       if (this._isModifierKeyPressed()) {
+         const keyWithModifier = this._addModifierKey(key);
+         return this._getKeybindcallbackfunctionInternal(keyWithModifier);
+       }
+       else {
+         return this._getKeybindcallbackfunctionInternal(key);
+       }
+     },
+
+     callKeybindCallback: function(key) {
+       const callback = this.getKeybindCallbackFunction(key);
+       if (callback) {
+         callback.call(this);
+       }
+     },
+
+     _scrollDownOneLine: function() {
+       window.scrollTo(window.scrollX, window.scrollY + this.scrollLineHeight);
+     },
+
+     _scrollUpOneLine: function() {
+       window.scrollTo(window.scrollX, window.scrollY - this.scrollLineHeight);
+     },
+   });
+  </script>
+</dom-module>
