@@ -10,7 +10,7 @@ const $ = require('gulp-load-plugins')();
 
 const jsSources = ['index.js', 'gulpfile.js',
                    './browser/**/*.js', './renderer/**/*.js', './polymer_components/*.html'];
-const iconPath = 'dist/icon.icns';
+const macIconPath = 'resources/logo.icns';
 
 function getJavascriptLintDefaultTask(sources) {
   return gulp.src(sources)
@@ -33,11 +33,11 @@ gulp.task('watch', ['lint'], () => {
 
 gulp.task('icon', () => {
   // remove iconPath first if it exists
-  if (fs.existsSync(iconPath)) {
-    fs.unlinkSync(iconPath);
+  if (fs.existsSync(macIconPath)) {
+    fs.unlinkSync(macIconPath);
   }
   return gulp.src('resources/logo.png')
-    .pipe($.exec(`nicns --in resources/logo.png --out ${iconPath}`))
+    .pipe($.exec(`nicns --in resources/logo.png --out ${macIconPath}`))
     .pipe($.exec.reporter({
       err: true,
       stderr: true,
@@ -47,7 +47,7 @@ gulp.task('icon', () => {
 
 function getPlatformDependendOption(platform) {
   if (platform == 'darwin') {
-    return `--icon=${iconPath}`;
+    return `--icon=${macIconPath}`;
   } else {
     return '';
   }
@@ -63,7 +63,7 @@ function buildElectronPackagerCommands(platforms) {
 const electronBuildCommands = buildElectronPackagerCommands(['darwin', 'linux']);
 
 electronBuildCommands.forEach((command) => {
-  gulp.task(command, ['icon'], () => {
+  gulp.task(command, () => {
     return gulp.src('')
       .pipe($.exec(command, {
         pipeStdout: true
