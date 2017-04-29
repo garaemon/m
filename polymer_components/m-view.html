@@ -4,12 +4,14 @@
 <link rel="import" href="../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animations.html"/>
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
 <link rel="import" href="code-meta-info.html">
+<link rel="import" href="keybind-manager.html">
 
 <dom-module id="m-view">
   <template>
@@ -74,6 +76,7 @@
        }
      }
     </style>
+    <keybind-manager></keybind-manager>
     <app-header-layout>
       <app-header fixed condenses class="no-print">
         <app-toolbar id="toolbar">
@@ -105,16 +108,14 @@
   <script>
    Polymer({
      is: 'm-view',
+
      properties: {
        file: String,
+
        showToc: {
          type: Boolean,
          value: true
        },
-     },
-
-     _hasFile: function() {
-       return !this.file;
      },
 
      updateView: function(renderedResult) {
@@ -145,6 +146,10 @@
      showError: function(error) {
        this.errorContents = error;
        this.$.error_dialog.open();
+     },
+
+     onEnter: function(e) {
+       console.log('entered');
      },
    });
   </script>

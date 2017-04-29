@@ -44,7 +44,8 @@
     "html"
   ],
   "globals": {
-    "Polymer": true
+    "Polymer": true,
+    "_": true
   },
   "extends": "eslint:recommended"
 }
