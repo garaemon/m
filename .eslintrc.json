@@ -20,24 +20,7 @@
     "templateStrings": true
   },
   "rules": {
-    "block-spacing": 2,
-    "camelcase": 2,
-    "no-multiple-empty-lines": [2, {"max": 2}],
-    "no-undef": "error",
-    "no-unused-vars": [2, {"args": "none"}],
-    "strict": 0,
-    "indent": [2, 2, {"ArrayExpression": "first"}],
-    "quotes": [2, "single"],
-    "linebreak-style": [2, "unix"],
-    "semi": [2, "always"],
-    "no-var": 2,
-    "prefer-const": 2,
-    "no-spaced-func": 2,
-    "space-before-blocks": 2,
-    "key-spacing": [2, {
-      "beforeColon": false,
-      "afterColon" : true
-    }],
+    "max-len": [2, 100],
     "no-console": 0
   },
   "plugins": [
@@ -47,5 +30,5 @@
     "Polymer": true,
     "_": true
   },
-  "extends": "eslint:recommended"
+  "extends": ["eslint:recommended", "google"]
 }
