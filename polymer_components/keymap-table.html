@@ -1,0 +1,117 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<dom-module id="keymap-table">
+  <template>
+    <style>
+     :host {
+       width: 100%;
+     }
+     /* http://qiita.com/usk83/items/8cdeb611bb57c86e795f */
+     dl, dt, dd {
+       box-sizing: border-box;
+     }
+
+     dl {
+       border-right: 1px solid #ccc;
+       border-bottom: 1px solid #ccc;
+       border-left: 1px solid #ccc;
+     }
+
+     dt,
+     dd {
+       padding: 10px 10px 0 10px;
+       border-top: 1px solid #ccc;
+     }
+
+     dt {
+       width: 40%;
+       float: left;
+     }
+
+     dd {
+       background: #fff;
+       margin-left: 40%;
+       padding-bottom: 10px;
+       border-left: 1px solid #ccc;
+     }
+
+     dd:after {
+       content: '';
+       display: block;
+       clear: both;
+     }
+
+    </style>
+
+    <dl>
+      <template is="dom-repeat" items="{{keymapVisualizationItems}}">
+        <dt>[[item.discription]]</dt>
+        <dd>[[item.keys]]</dd>
+      </template>
+    </dl>
+  </template>
+  <script>
+   Polymer({
+     is: 'keymap-table',
+
+     properties: {
+       keymap: Object,
+       keymapDiscription: Object,
+       keymapVisualizationItems: {
+         type: Object,
+         computed: '_getKeymapVisualizationItems(keymap, keymapDiscription)',
+       },
+     },
+
+     _getKeymapVisualizationItems: function(keymap, keymapDiscription) {
+       /** keymap object is like
+          'j': '_scrollDownOneLine',
+          'k': '_scrollUpOneLine',
+          'C+n': '_scrollDownOneLine',
+          'C+p': '_scrollUpOneLine',
+          'h': '_showKeybindHelp',
+          '?': '_showKeybindHelp',
+          'S+?': '_showKeybindHelp',
+        */
+       const discriptionAndKeys = {};
+       _.forEach(this.keymapDiscription, (discription, functionName) => {
+         const keys = this._getKeysFromFunctionName(functionName);
+         if (keys) {
+           discriptionAndKeys[discription] = keys;
+         }
+       });
+       const discriptionAndKeysArray = [];
+       _.forEach(discriptionAndKeys, function(keys, discription) {
+         discriptionAndKeysArray.push({discription: discription,
+                                       keys: keys});
+       });
+       return discriptionAndKeysArray;
+     },
+
+     _expandModifierKey: function(key) {
+       if (_.startsWith(key, 'S+')) {
+         return `Shift+${key[2]}`;
+       } else if (_.startsWith(key, 'C+')) {
+         return `Control+${key[2]}`;
+       } else if (_.startsWith(key, 'T+')) {
+         return `Tab+${key[2]}`;
+       } else if (_.startsWith(key, 'M+')) {
+         return `Meta+${key[2]}`;
+       } else {
+         return key;
+       }
+     },
+
+     _getKeysFromFunctionName: function(functionName) {
+       const keys = [];
+       _.forEach(this.keymap, (keyFunctionName, key) => {
+         if (functionName == keyFunctionName) {
+           keys.push(this._expandModifierKey(key));
+         }
+       });
+       return keys.join(', ');
+     },
+
+   });
+  </script>
+</dom-module>
