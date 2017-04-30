@@ -9,7 +9,9 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
 const jsSources = ['index.js', 'gulpfile.js',
-                   './browser/**/*.js', './renderer/**/*.js', './polymer_components/*.html'];
+                   './browser/**/*.js', './renderer/**/*.js',
+                   './polymer_components/*.html'];
+const polymerSources = ['./polymer_components/*.html'];
 const macIconPath = 'resources/logo.icns';
 
 function getJavascriptLintDefaultTask(sources) {
@@ -18,14 +20,32 @@ function getJavascriptLintDefaultTask(sources) {
     .pipe($.eslint.format());
 }
 
-gulp.task('lint', () => {
+function getPolylintDefaultTask(sources) {
+  return gulp.src(sources)
+    .pipe($.polylint())
+    .pipe($.polylint.reporter($.polylint.reporter.stylishlike));
+}
+
+gulp.task('js-lint', () => {
   return getJavascriptLintDefaultTask(jsSources);
 });
 
-gulp.task('lint-fail-on-error', () => {
+gulp.task('js-lint-fail-on-error', () => {
   return getJavascriptLintDefaultTask(jsSources)
     .pipe($.eslint.failOnError());
 });
+
+gulp.task('polylint', () => {
+  return getPolylintDefaultTask(polymerSources);
+});
+
+gulp.task('polylint-fail-on-error', () => {
+  return getPolylintDefaultTask(polymerSources)
+    .pipe($.polylint.reporter.fail({ buffer: true, ignoreWarnings: false }));
+});
+
+gulp.task('lint', ['js-lint', 'polylint']);
+gulp.task('lint-fail-on-error', ['js-lint-fail-on-error', 'polylint-fail-on-error']);
 
 gulp.task('watch', ['lint'], () => {
   gulp.watch(jsSources, ['lint']);
