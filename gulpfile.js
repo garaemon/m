@@ -14,12 +14,20 @@ const jsSources = ['index.js', 'gulpfile.js',
 const polymerSources = ['./polymer_components/*.html'];
 const macIconPath = 'resources/logo.icns';
 
+/**
+ * @param {string[]} sources file(s) to run javascrpt lint task.
+ * @return {Transform} gulp task
+ */
 function getJavascriptLintDefaultTask(sources) {
   return gulp.src(sources)
     .pipe($.eslint())
     .pipe($.eslint.format());
 }
 
+/**
+ * @param {string[]} sources file(s) to run javascrpt lint task.
+ * @return {Transform} gulp task
+ */
 function getPolylintDefaultTask(sources) {
   return gulp.src(sources)
     .pipe($.polylint())
@@ -41,7 +49,9 @@ gulp.task('polylint', () => {
 
 gulp.task('polylint-fail-on-error', () => {
   return getPolylintDefaultTask(polymerSources)
-    .pipe($.polylint.reporter.fail({ buffer: true, ignoreWarnings: false }));
+    .pipe($.polylint.reporter.fail({
+      buffer: true,
+      ignoreWarnings: false}));
 });
 
 gulp.task('lint', ['js-lint', 'polylint']);
@@ -61,10 +71,14 @@ gulp.task('icon', () => {
     .pipe($.exec.reporter({
       err: true,
       stderr: true,
-      stdout: true
+      stdout: true,
     }));
 });
 
+/**
+ * @param {string} platform
+ * @return {string} --icon option for electron-packager
+ */
 function getPlatformDependendOption(platform) {
   if (platform == 'darwin') {
     return `--icon=${macIconPath}`;
@@ -73,6 +87,10 @@ function getPlatformDependendOption(platform) {
   }
 }
 
+/**
+ * @param {string[]} platforms list of platforms
+ * @return {string[]} commands to execute electron-packer
+ */
 function buildElectronPackagerCommands(platforms) {
   return platforms.map((platform) => {
     const platformDependendOption = getPlatformDependendOption(platform);
@@ -86,12 +104,12 @@ electronBuildCommands.forEach((command) => {
   gulp.task(command, () => {
     return gulp.src('')
       .pipe($.exec(command, {
-        pipeStdout: true
+        pipeStdout: true,
       }))
       .pipe($.exec.reporter({
         err: true,
         stderr: true,
-        stdout: true
+        stdout: true,
       }));
   });
 });
