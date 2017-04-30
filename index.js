@@ -14,7 +14,7 @@ if (argv.detach) {
   process.argv.splice(detachIndex, 1);
   childProcess.spawn(process.argv[0], process.argv.slice(1), {
     detached: true,
-    stdio: 'ignore'
+    stdio: 'ignore',
   }).unref();
   process.exit(0);
 } else {
