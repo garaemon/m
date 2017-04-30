@@ -6,9 +6,7 @@
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../bower_components/neon-animation/neon-animations.html"/>
-<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/paper-tooltip/paper-tooltip.html">
 
 <link rel="import" href="code-meta-info.html">
 <link rel="import" href="keybind-manager.html">
@@ -83,9 +81,6 @@
           <h1 id="title">
             <span id="title-word">{{file}}</span>
           </h1>
-          <paper-tooltip position="top" for="title-word">
-            {{fullpath}}
-          </paper-tooltip>
         </app-toolbar>
       </app-header>
       <section>
@@ -98,10 +93,6 @@
         </div>
         <div class="markdown-body" id="markdown-content">
         </div>
-        <paper-dialog id="error_dialog" entry-animation="scale-up-animation"
-                      exit-animation="fade-out-animation">
-          {{error_contents}}
-        </paper-dialog>
       </section>
     </app-header-layout>
   </template>
