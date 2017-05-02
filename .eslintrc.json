@@ -21,7 +21,8 @@
   },
   "rules": {
     "max-len": [2, 100],
-    "no-console": 0
+    "no-console": 0,
+    "new-cap": 0
   },
   "plugins": [
     "html"
