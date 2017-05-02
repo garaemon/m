@@ -1,9 +1,31 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+
+<link rel="import" href="keymap-table.html">
+
 <dom-module id="keybind-manager">
   <template>
     <style>
+     paper-dialog {
+       width: 400px;
+     }
     </style>
+
+    <paper-dialog id="helpDialog">
+      <h2>Keybind</h2>
+      <paper-dialog-scrollable>
+        <keymap-table keymap="[[keymap]]"
+                      keymap-discription="[[keymapDiscription]]">
+        </keymap-table>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss>Close</paper-button>
+      </div>
+    </paper-dialog>
+
   </template>
   <script>
    Polymer({
@@ -17,6 +39,18 @@
            'k': '_scrollUpOneLine',
            'C+n': '_scrollDownOneLine',
            'C+p': '_scrollUpOneLine',
+           'h': '_showKeybindHelp',
+           '?': '_showKeybindHelp',
+           'S+?': '_showKeybindHelp',
+         },
+       },
+
+       keymapDiscription: {
+         type: Object,
+         value: {
+           '_scrollDownOneLine': 'Scroll down',
+           '_scrollUpOneLine': 'Scroll up',
+           '_showKeybindHelp': 'Show help',
          },
        },
 
@@ -124,6 +158,10 @@
 
      _scrollUpOneLine: function() {
        window.scrollTo(window.scrollX, window.scrollY - this.scrollLineHeight);
+     },
+
+     _showKeybindHelp: function() {
+       this.$.helpDialog.toggle();
      },
    });
   </script>
