@@ -37,7 +37,6 @@
     "flowchart.js": "^1.6.6",
     "he": "^1.1.1",
     "highlight.js": "^9.11.0",
-    "highlightjs": "^9.8.0",
     "is-electron-renderer": "^2.0.1",
     "lodash": "^4.17.4",
     "marked": "^0.3.6",
