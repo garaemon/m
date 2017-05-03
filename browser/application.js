@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const _  = require('lodash');
+const _ = require('lodash');
 const electron = require('electron');
 const electronReload = require('electron-reload');
 const electronDebug = require('electron-debug');
@@ -33,7 +33,7 @@ class Application {
       info: 'cyan',
       silly: 'magenta',
       warn: 'yellow',
-      error: 'red'
+      error: 'red',
     });
 
     log.remove(log.transports.Console);
@@ -44,22 +44,30 @@ class Application {
    * register callback methods to electron.app.
    */
   _registerAppCallbacks() {
-    electron.app.on('activate', () => { this._onActivate(); });
-    electron.app.on('window-all-closed', () => { this._onWindowAllClosed(); });
-    electron.app.on('ready', () => { this._onReady(); });
+    electron.app.on('activate', () => {
+      this._onActivate();
+    });
+    electron.app.on('window-all-closed', () => {
+      this._onWindowAllClosed();
+    });
+    electron.app.on('ready', () => {
+      this._onReady();
+    });
   }
 
   _createMainWindow(options = {}) {
     const win = new electron.BrowserWindow(_.merge({
       width: 1200,
-      height: 800
+      height: 800,
     }, options));
     const htmlFile = `file://${__dirname}/../index.html`;
     win.loadURL(htmlFile);
     this.mainWindow = win;
     electron.Menu.setApplicationMenu(Menu(this));
 
-    win.on('closed', () => { this._onClosed(); });
+    win.on('closed', () => {
+      this._onClosed();
+    });
     return win;
   }
 
@@ -68,12 +76,12 @@ class Application {
   }
 
   showAboutApplication() {
-    /*eslint-disable camelcase*/
+    /* eslint-disable camelcase */
     openAboutWindow({
       icon_path: path.join(__dirname, '../resources/logo.png'),
-      copyright: 'Copyright (c) 2017 garaemon'
+      copyright: 'Copyright (c) 2017 garaemon',
     });
-    /*eslint-enable camelcase*/
+    /* eslint-enable camelcase */
   }
 
   openFileDialog(callback) {
@@ -82,9 +90,12 @@ class Application {
       title: 'Choose a file',
       defaultPath: '.',
       filters: [
-        {name: 'markdown file', extensions: ['md']}
+        {
+          name: 'markdown file',
+          extensions: ['md'],
+        },
       ],
-      properties: ['openFile']
+      properties: ['openFile'],
     }, (filePaths) => {
       if (!filePaths || filePaths.length != 1) {
         callback(new Error('Please choose one file'), null);
@@ -128,7 +139,7 @@ class Application {
     } else {
       electron.dialog.showSaveDialog(this.mainWindow, {
         title: 'Save file',
-        defaultPath: '.'
+        defaultPath: '.',
       }, (filename) => {
         callback(filename);
       });

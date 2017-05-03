@@ -105,8 +105,7 @@
        if (this._isModifierKeyPressed()) {
          const keyWithModifier = this._addModifierKey(key);
          return this._getKeybindcallbackfunctionInternal(keyWithModifier);
-       }
-       else {
+       } else {
          return this._getKeybindcallbackfunctionInternal(key);
        }
      },

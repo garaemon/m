@@ -22,7 +22,10 @@
   "rules": {
     "max-len": [2, 100],
     "no-console": 0,
-    "new-cap": 0
+    "new-cap": 0,
+    "valid-jsdoc": 0,
+    "require-jsdoc": 0,
+    "no-invalid-this": 0
   },
   "plugins": [
     "html"

@@ -10,6 +10,9 @@
     "email": "garaemon@gmail.com",
     "url": "garaemon.github.io"
   },
+  "bin": {
+    "m": "./index.js"
+  },
   "scripts": {
     "test": "gulp test",
     "start": "electron .",

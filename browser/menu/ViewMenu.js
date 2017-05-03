@@ -9,8 +9,8 @@ class ViewMenu extends Menu {
         label: 'Toggle Table of Contents',
         click: function() {
           app.toggleTOC();
-        }
-      }
+        },
+      },
     ];
   }
 }
