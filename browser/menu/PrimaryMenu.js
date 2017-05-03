@@ -10,26 +10,30 @@ class PrimaryMenu extends Menu {
     this.items = [
       {
         label: 'About m',
-        click: () => { this.app.showAboutApplication(); }
+        click: () => {
+          this.app.showAboutApplication();
+        },
       },
       {
         label: 'Print',
         accelerator: 'Command+P',
         click: () => {
           this.app.print();
-        }
+        },
       },
       {
         label: 'Export to PDF',
         click: () => {
           this.app.saveToPDF();
-        }
+        },
       },
       {
         label: 'Quit',
         accelerator: 'Command+Q',
-        click: () => { electron.app.quit(); }
-      }
+        click: () => {
+          electron.app.quit();
+        },
+      },
     ];
   }
 }

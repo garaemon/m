@@ -3,5 +3,5 @@ const CodeMetaInfoFixPlugin = require('./code-meta-info-fix-plugin.js');
 
 module.exports = {
   ImagePathFixPlugin: ImagePathFixPlugin,
-  CodeMetaInfoFixPlugin: CodeMetaInfoFixPlugin
+  CodeMetaInfoFixPlugin: CodeMetaInfoFixPlugin,
 };

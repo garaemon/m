@@ -5,7 +5,7 @@ const MarkdownHighlightPlugin = require('./markdown-highlight.js');
 mjAPI.config({
   MathJax: {
     // traditional MathJax configuration
-  }
+  },
 });
 mjAPI.start();
 
@@ -15,7 +15,7 @@ class MathjaxHighlighter extends MarkdownHighlightPlugin {
       math: code,
       format: 'TeX', // 'inline-TeX', 'MathML'
       renderer: 'SVG',
-      svg: true
+      svg: true,
     }, (data) => {
       if (data.errors) {
         callback(null, data.errors[0], code);

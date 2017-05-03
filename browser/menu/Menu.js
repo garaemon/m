@@ -11,7 +11,7 @@ class Menu {
   buildTemplate() {
     return {
       label: this.getLabel(),
-      submenu: this.items
+      submenu: this.items,
     };
   }
 }

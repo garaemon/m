@@ -9,23 +9,53 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 
 const jsSources = ['index.js', 'gulpfile.js',
-                   './browser/**/*.js', './renderer/**/*.js', './polymer_components/*.html'];
+                   './browser/**/*.js', './renderer/**/*.js',
+                   './polymer_components/*.html'];
+const polymerSources = ['./polymer_components/*.html'];
 const macIconPath = 'resources/logo.icns';
 
+/**
+ * @param {string[]} sources file(s) to run javascrpt lint task.
+ * @return {Transform} gulp task
+ */
 function getJavascriptLintDefaultTask(sources) {
   return gulp.src(sources)
     .pipe($.eslint())
     .pipe($.eslint.format());
 }
 
-gulp.task('lint', () => {
+/**
+ * @param {string[]} sources file(s) to run javascrpt lint task.
+ * @return {Transform} gulp task
+ */
+function getPolylintDefaultTask(sources) {
+  return gulp.src(sources)
+    .pipe($.polylint())
+    .pipe($.polylint.reporter($.polylint.reporter.stylishlike));
+}
+
+gulp.task('js-lint', () => {
   return getJavascriptLintDefaultTask(jsSources);
 });
 
-gulp.task('lint-fail-on-error', () => {
+gulp.task('js-lint-fail-on-error', () => {
   return getJavascriptLintDefaultTask(jsSources)
     .pipe($.eslint.failOnError());
 });
+
+gulp.task('polylint', () => {
+  return getPolylintDefaultTask(polymerSources);
+});
+
+gulp.task('polylint-fail-on-error', () => {
+  return getPolylintDefaultTask(polymerSources)
+    .pipe($.polylint.reporter.fail({
+      buffer: true,
+      ignoreWarnings: false}));
+});
+
+gulp.task('lint', ['js-lint', 'polylint']);
+gulp.task('lint-fail-on-error', ['js-lint-fail-on-error', 'polylint-fail-on-error']);
 
 gulp.task('watch', ['lint'], () => {
   gulp.watch(jsSources, ['lint']);
@@ -41,10 +71,14 @@ gulp.task('icon', () => {
     .pipe($.exec.reporter({
       err: true,
       stderr: true,
-      stdout: true
+      stdout: true,
     }));
 });
 
+/**
+ * @param {string} platform
+ * @return {string} --icon option for electron-packager
+ */
 function getPlatformDependendOption(platform) {
   if (platform == 'darwin') {
     return `--icon=${macIconPath}`;
@@ -53,6 +87,10 @@ function getPlatformDependendOption(platform) {
   }
 }
 
+/**
+ * @param {string[]} platforms list of platforms
+ * @return {string[]} commands to execute electron-packer
+ */
 function buildElectronPackagerCommands(platforms) {
   return platforms.map((platform) => {
     const platformDependendOption = getPlatformDependendOption(platform);
@@ -66,12 +104,12 @@ electronBuildCommands.forEach((command) => {
   gulp.task(command, () => {
     return gulp.src('')
       .pipe($.exec(command, {
-        pipeStdout: true
+        pipeStdout: true,
       }))
       .pipe($.exec.reporter({
         err: true,
         stderr: true,
-        stdout: true
+        stdout: true,
       }));
   });
 });

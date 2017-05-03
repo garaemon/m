@@ -10,7 +10,7 @@ class MermaidFrontendPlugin extends FrontendPluginBase {
     if (!isMermaidInitialized) {
       console.log('Initialize mermaid');
       mermaidAPI.initialize({
-        startOnLoad: true
+        startOnLoad: true,
       });
       isMermaidInitialized = true;
     }

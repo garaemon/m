@@ -7,5 +7,5 @@ function getCodeBlockElements(classSelector) {
 }
 
 module.exports = {
-  getCodeBlockElements: getCodeBlockElements
+  getCodeBlockElements: getCodeBlockElements,
 };

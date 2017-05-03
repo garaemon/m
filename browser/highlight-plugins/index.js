@@ -5,9 +5,9 @@ const MermaidHighlighter = require('./mermaid.js');
 const UndefinedHighlighter = require('./undefined.js');
 
 module.exports = {
-  undefined: new UndefinedHighlighter(),
-  default: new DefaultHighlighter(),
-  mathjax: new MathjaxHighlighter(),
-  mermaid: new MermaidHighlighter(),
-  'flowchart.js': new FlowchartJSHighlighter()
+  'undefined': new UndefinedHighlighter(),
+  'default': new DefaultHighlighter(),
+  'mathjax': new MathjaxHighlighter(),
+  'mermaid': new MermaidHighlighter(),
+  'flowchart.js': new FlowchartJSHighlighter(),
 };

@@ -18,8 +18,8 @@ class FileMenu extends Menu {
               app.notifyFile(file);
             }
           });
-        }
-      }
+        },
+      },
     ];
   }
 }

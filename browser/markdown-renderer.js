@@ -19,7 +19,7 @@ class MarkdownRenderer {
      */
     this.postProcessPlugins = [
       new postProcessPlugins.ImagePathFixPlugin(),
-      new postProcessPlugins.CodeMetaInfoFixPlugin()
+      new postProcessPlugins.CodeMetaInfoFixPlugin(),
     ];
 
     /**
@@ -60,7 +60,7 @@ class MarkdownRenderer {
       highlight: function(code, lang, callback) {
         self.highlight(code, lang, callback);
       },
-      breaks: true
+      breaks: true,
     });
   }
 
@@ -116,7 +116,7 @@ class MarkdownRenderer {
           callback(err, {
             'contents': renderedHtml,
             'toc': tocHtml,
-            'file': file
+            'file': file,
           });
         });
       }
