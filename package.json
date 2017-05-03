@@ -18,11 +18,6 @@
     "start": "electron .",
     "build": "electron-packager . --out=dist --asar --overwrite --all"
   },
-  "files": [
-    "index.js",
-    "index.html",
-    "index.css"
-  ],
   "keywords": [
     "electron-app",
     "electron"
