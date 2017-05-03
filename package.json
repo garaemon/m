@@ -29,6 +29,7 @@
     "color-log": "0.0.2",
     "colors": "^1.1.2",
     "ejs": "^2.5.5",
+    "electron": "^1.6.6",
     "electron-debug": "^1.0.0",
     "electron-reload": "^1.1.0",
     "flowchart.js": "^1.6.6",
