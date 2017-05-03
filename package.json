@@ -17,7 +17,7 @@
     "test": "gulp test",
     "start": "electron .",
     "build": "electron-packager . --out=dist --asar --overwrite --all",
-    "install": "npm install && bower install"
+    "install": "bower install"
   },
   "keywords": [
     "electron-app",
