@@ -1,0 +1,22 @@
+{
+  "name": "m",
+  "version": "0.0.0",
+  "description": "daily markdown editor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garaemon/m.git"
+  },
+  "keywords": [
+    "markdown"
+  ],
+  "author": "garaemon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/garaemon/m/issues"
+  },
+  "homepage": "https://github.com/garaemon/m#readme"
+}
