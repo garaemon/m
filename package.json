@@ -18,5 +18,14 @@
   "bugs": {
     "url": "https://github.com/garaemon/m/issues"
   },
-  "homepage": "https://github.com/garaemon/m#readme"
+  "homepage": "https://github.com/garaemon/m#readme",
+  "devDependencies": {
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.6",
+    "webpack-cli": "^3.3.11"
+  },
+  "dependencies": {
+    "electron": "^8.0.1"
+  }
 }
