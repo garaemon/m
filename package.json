@@ -26,6 +26,8 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "electron": "^8.0.1"
+    "electron": "^8.0.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
   }
 }
