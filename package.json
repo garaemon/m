@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/garaemon/m#readme",
   "devDependencies": {
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "webpack": "^4.41.6",
