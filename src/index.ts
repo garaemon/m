@@ -11,7 +11,7 @@ class SampleApp {
     this.app = app;
     this.app.on('window-all-closed', this.onWindowAllClosed.bind(this))
     this.app.on('ready', this.create.bind(this));
-    this.app.on('activate', this.onActivated.bind(this));
+      this.app.on('activate', this.onActivated.bind(this));
   }
 
   private onWindowAllClosed() {
@@ -19,6 +19,7 @@ class SampleApp {
   }
 
   private create() {
+    /* TODO: window size parameter sholed be specified by command line argument */
     this.mainWindow = new BrowserWindow({
       width: 800,
       height: 400,
