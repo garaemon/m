@@ -1,5 +1,7 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+import Editor from './Editor';
 
 interface MyComponentProps {
     // 必要なプロパティを記述
@@ -18,7 +20,7 @@ class MyComponent extends React.Component<MyComponentProps, MyComponentStates> {
         };
     }
     public render(): React.ReactNode {
-        return (<p>Hello World2 222</p>);
+        return (<Editor/>);
     }
 }
 
