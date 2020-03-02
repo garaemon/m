@@ -50,6 +50,18 @@ const renderer = {
         path.resolve(__dirname, 'src'),
         path.resolve(__dirname, 'node_modules'),
       ],
+    }, {
+      test: /\.css$/,
+      exclude: '/node_modules/',
+      use: [
+        'style-loader',
+        {
+          'loader': 'css-loader',
+          options: {
+            url: false
+          }
+        }
+      ]
     }]
   },
 };
