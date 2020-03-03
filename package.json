@@ -4,7 +4,8 @@
   "description": "daily markdown editor",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
