@@ -2,7 +2,7 @@
 
 import { BrowserWindow, app, App, Menu} from 'electron'
 
-class SampleApp {
+class MainApp {
   private mainWindow: BrowserWindow | null = null;
   private app: App;
   private mainURL: string = `file://${__dirname}/index.html`
@@ -82,4 +82,4 @@ class SampleApp {
   }
 }
 
-const MyApp: SampleApp = new SampleApp(app)
+const MyApp: MainApp = new MainApp(app)
