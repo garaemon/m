@@ -1,11 +1,13 @@
 /* Entry file for main process */
 
 import { BrowserWindow, app, App, Menu} from 'electron'
+import { statSync, readFileSync } from 'fs';
 
 class MainApp {
     private mainWindow: BrowserWindow | null = null;
     private app: App;
     private mainURL: string = `file://${__dirname}/index.html`
+    private targetFile : string | null = null;
 
     constructor(app: App) {
         this.app = app;
@@ -26,10 +28,12 @@ class MainApp {
             minWidth: 500,
             minHeight: 200,
             acceptFirstMouse: true,
+            webPreferences: {
+                nodeIntegration: true,
+            }
         });
-
+        // this.mainWindow.webContents.openDevTools();
         this.mainWindow.loadURL(this.mainURL);
-
         this.mainWindow.on('closed', () => {
             this.mainWindow = null;
         });
@@ -67,10 +71,36 @@ class MainApp {
     }
 
     private create() {
-
+        // process.argv[0] -- path to electron
+        // process.argv[1] -- path to package
+        // process.argv[2] -- path to file (optional)
+        let targetFile : string | null = null;
+        if (process.argv.length > 2) {
+            this.targetFile = process.argv[2];
+        }
 
         this.createMenuBar();
         this.createWindow();
+
+        if (this.targetFile != null) {
+            setTimeout(() => {
+                if (this.targetFile != null) {
+                    this.openFile(this.targetFile);
+                }
+            }, 5000);
+        }
+    }
+
+    private openFile(file: string) {
+        try {
+            statSync(file);
+            const content = readFileSync(file, 'utf-8');
+            if (this.mainWindow != null) {
+                this.mainWindow.webContents.send('file-content', content);
+            }
+        } catch (error) {
+            console.error('${file} does not exist');
+        }
     }
 
     private onReady() {

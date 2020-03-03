@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserWindow} from 'electron';
 
 import Editor from './Editor';
 

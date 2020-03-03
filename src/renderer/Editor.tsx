@@ -1,5 +1,12 @@
+import {IpcRendererEvent} from 'electron';
 import React, {Component} from 'react';
-import ReactCodeMirror from 'react-codemirror';
+/* React component provided by the original react-codemirror package does not update view
+   even if value state is updated.
+   In order to avoid this issue, use react-codemirror2 package.
+ */
+import {UnControlled as CodeMirror} from 'react-codemirror2';
+import * as codemirror from 'codemirror';
+const ipcRenderer = window.require('electron').ipcRenderer;
 
 import 'codemirror/lib/codemirror.css';
 import 'hypermd/mode/hypermd.css';
@@ -30,19 +37,35 @@ interface EditorProps {
 }
 
 interface EditorStates {
+    content: string;
 }
 
 
 export default class Editor extends Component<EditorProps, EditorStates> {
     // private codeMirrorRef: React.Ref;
-    private codeMirrorRef = React.createRef<ReactCodeMirror.ReactCodeMirror>();
+    // private codeMirrorRef = React.createRef<CodeMirror.CodeMirror>();
     // private codeMirrorRef  : React.RefObject<HTMLInputElement>;
 
     constructor(props: EditorProps) {
         super(props);
+        this.state = {'content': ''};
+    }
+
+    componentDidMount() {
+        console.log('hoge');
+        ipcRenderer.on('file-content', (_event : IpcRendererEvent, content: string) => {
+            console.log('file-content', content);
+            this.setState({'content': content});
+            //this.codeMirrorRef.editor.setValue(content);
+        });
+    }
+
+    onChange(editor: codemirror.Editor, data: codemirror.EditorChange, value:string) {
+        // Not yet implemented
     }
 
     render() {
+        console.log('render', this.state.content);
         const options = {
             mode: 'hypermd',
             // mode: 'gfm',
@@ -61,11 +84,10 @@ export default class Editor extends Component<EditorProps, EditorStates> {
             hmdTableAlign: true,
         };
 
-        const defaultText = "# Heading\n\nSome **bold** and _italic_ text\nBy [Jed Watson](https://github.com/JedWatson)\n";
-
-        return (<ReactCodeMirror value={defaultText}
-                ref={this.codeMirrorRef}
-                className="code-mirror_editor"
+        return (<CodeMirror
+                value={this.state.content}
+                onChange={this.onChange}
+                className="code-mirror-editor"
                 options={options} />);
     }
 
