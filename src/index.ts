@@ -1,6 +1,6 @@
 /* Entry file for main process */
 
-import { BrowserWindow, app, App, } from 'electron'
+import { BrowserWindow, app, App, Menu} from 'electron'
 
 class SampleApp {
   private mainWindow: BrowserWindow | null = null;
@@ -18,7 +18,7 @@ class SampleApp {
     this.app.quit();
   }
 
-  private create() {
+  private createWindow() {
     /* TODO: window size parameter sholed be specified by command line argument */
     this.mainWindow = new BrowserWindow({
       width: 800,
@@ -33,6 +33,42 @@ class SampleApp {
     this.mainWindow.on('closed', () => {
       this.mainWindow = null;
     });
+  }
+
+  private createMenuBar() {
+    const template : Electron.MenuItemConstructorOptions[] = [
+      {
+        label: this.app.name,
+        submenu: [
+          { role: 'about' },
+          { type: 'separator' },
+          { role: 'services' },
+          { type: 'separator' },
+          { role: 'hide' },
+          { role: 'unhide' },
+          { type: 'separator' },
+          { role: 'quit' },
+        ]
+      },
+      {
+        label: 'File',
+        submenu: [
+          {
+            label: 'Open',
+            click: (item, focusedWindow) => {
+              console.log('open file, not yet supported');
+            },
+          }
+        ]
+      }
+    ];
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
+  }
+
+  private create() {
+    this.createMenuBar();
+    this.createWindow();
   }
 
   private onReady() {
