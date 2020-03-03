@@ -26,7 +26,6 @@ class SampleApp {
       minWidth: 500,
       minHeight: 200,
       acceptFirstMouse: true,
-      titleBarStyle: 'hidden'
     });
 
     this.mainWindow.loadURL(this.mainURL);
