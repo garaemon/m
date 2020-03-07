@@ -1,6 +1,6 @@
 /* Entry file for main process */
 
-import { BrowserWindow, app, App, Menu} from 'electron'
+import { BrowserWindow, app, App, Menu, dialog} from 'electron'
 import { statSync, readFileSync } from 'fs';
 
 class MainApp {
@@ -59,9 +59,9 @@ class MainApp {
                 submenu: [
                     {
                         label: 'Open',
-                        click: (item, focusedWindow) => {
-                            console.log('open file, not yet supported');
-                        },
+                        click: (_item, _focusedWindow) => {
+                            this.openFileWithDialog();
+                        }
                     }
                 ]
             }
@@ -74,7 +74,6 @@ class MainApp {
         // process.argv[0] -- path to electron
         // process.argv[1] -- path to package
         // process.argv[2] -- path to file (optional)
-        let targetFile : string | null = null;
         if (process.argv.length > 2) {
             this.targetFile = process.argv[2];
         }
@@ -89,6 +88,24 @@ class MainApp {
                 }
             }, 5000);
         }
+    }
+
+    private openFileWithDialog() {
+        if (this.mainWindow == null) {
+            console.error('no main window exists');
+            return;
+        }
+        dialog.showOpenDialog(this.mainWindow, {properties: ['openFile'], filters: [{
+            name: 'Markdown', extensions: ['md']
+        }, {
+            name: 'All Files', extensions: ['*']
+        }]}).then((result) => {
+            if (result.filePaths.length > 0) {
+                this.openFile(result.filePaths[0]);
+            } else {
+                console.log('No file is selected');
+            }
+        });
     }
 
     private openFile(file: string) {
