@@ -38,34 +38,29 @@ interface EditorProps {
 
 interface EditorStates {
     content: string;
+    shown_content: string;
 }
 
-
 export default class Editor extends Component<EditorProps, EditorStates> {
-    // private codeMirrorRef: React.Ref;
-    // private codeMirrorRef = React.createRef<CodeMirror.CodeMirror>();
-    // private codeMirrorRef  : React.RefObject<HTMLInputElement>;
-
     constructor(props: EditorProps) {
         super(props);
-        this.state = {'content': ''};
+        this.state = {'content': '', 'shown_content': ''};
     }
 
     componentDidMount() {
-        console.log('hoge');
         ipcRenderer.on('file-content', (_event : IpcRendererEvent, content: string) => {
-            console.log('file-content', content);
             this.setState({'content': content});
-            //this.codeMirrorRef.editor.setValue(content);
+        });
+        ipcRenderer.on('retrieve-content-for-save', (event : IpcRendererEvent) => {
+            event.sender.send('retrieve-content-result-for-save', this.state.shown_content);
         });
     }
 
-    onChange(editor: codemirror.Editor, data: codemirror.EditorChange, value:string) {
-        // Not yet implemented
+    onBeforeChange(_editor: codemirror.Editor, _data: codemirror.EditorChange, value: string) {
+        this.setState({'shown_content': value});
     }
 
     render() {
-        console.log('render', this.state.content);
         const options = {
             mode: 'hypermd',
             // mode: 'gfm',
@@ -86,7 +81,7 @@ export default class Editor extends Component<EditorProps, EditorStates> {
 
         return (<CodeMirror
                 value={this.state.content}
-                onChange={this.onChange}
+                onBeforeChange={this.onBeforeChange.bind(this)}
                 className="code-mirror-editor"
                 options={options} />);
     }

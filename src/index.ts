@@ -1,7 +1,7 @@
 /* Entry file for main process */
 
-import { BrowserWindow, app, App, Menu, dialog} from 'electron'
-import { statSync, readFileSync } from 'fs';
+import { BrowserWindow, app, App, Menu, dialog, ipcMain} from 'electron'
+import { statSync, readFileSync, writeFileSync } from 'fs';
 
 class MainApp {
     private mainWindow: BrowserWindow | null = null;
@@ -37,6 +37,13 @@ class MainApp {
         this.mainWindow.on('closed', () => {
             this.mainWindow = null;
         });
+        this.mainWindow.on('show', () => {
+            if (this.targetFile != null) {
+                if (this.targetFile != null) {
+                    this.openFile(this.targetFile);
+                }
+            }
+        });
     }
 
     private createMenuBar() {
@@ -62,12 +69,25 @@ class MainApp {
                         click: (_item, _focusedWindow) => {
                             this.openFileWithDialog();
                         }
+                    },
+                    {
+                        label: 'save',
+                        click: (_item, _focusedWindow) => {
+                            this.saveFileContent();
+                        }
                     }
                 ]
-            }
+            },
         ];
         const menu = Menu.buildFromTemplate(template);
         Menu.setApplicationMenu(menu);
+    }
+
+    private onRetrieveContentResultForSave(content: string) {
+        if (this.targetFile == null) {
+            return;
+        }
+        writeFileSync(this.targetFile, content);
     }
 
     private create() {
@@ -77,16 +97,17 @@ class MainApp {
         if (process.argv.length > 2) {
             this.targetFile = process.argv[2];
         }
-
+        ipcMain.on('retrieve-content-result-for-save', (_event, content : string) => {
+            this.onRetrieveContentResultForSave(content);
+        });
         this.createMenuBar();
         this.createWindow();
 
-        if (this.targetFile != null) {
-            setTimeout(() => {
-                if (this.targetFile != null) {
-                    this.openFile(this.targetFile);
-                }
-            }, 5000);
+    }
+
+    private saveFileContent() {
+        if (this.mainWindow != null) {
+            this.mainWindow.webContents.send('retrieve-content-for-save');
         }
     }
 
