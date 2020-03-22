@@ -84,6 +84,7 @@ class MainApp {
                     },
                     {
                         label: 'save',
+                        accelerator: 'Command+S',
                         click: (_item, _focusedWindow) => {
                             this.saveFileContent();
                         }
