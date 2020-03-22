@@ -1,6 +1,6 @@
 /* Entry file for main process */
 
-import { BrowserWindow, app, App, Menu, dialog, ipcMain} from 'electron'
+import { BrowserWindow, app, App, Menu, dialog, ipcMain } from 'electron'
 import { statSync, readFileSync, writeFileSync } from 'fs';
 import * as yargs from 'yargs';
 
@@ -30,7 +30,7 @@ class MainApp {
         console.log(argv);
 
         this.app.on('window-all-closed', this.onWindowAllClosed.bind(this))
-        this.app.on('ready', this.create.bind(this));
+        this.app.on('ready', this.onReady.bind(this));
         this.app.on('activate', this.onActivated.bind(this));
     }
 
@@ -67,7 +67,7 @@ class MainApp {
     }
 
     private createMenuBar() {
-        const template : Electron.MenuItemConstructorOptions[] = [
+        const template: Electron.MenuItemConstructorOptions[] = [
             {
                 label: this.app.name,
                 submenu: [
@@ -110,19 +110,17 @@ class MainApp {
         writeFileSync(this.targetFile, content);
     }
 
+    private onReady() {
+        console.log('onReady is called');
+        this.create();
+    }
+
     private create() {
-        // process.argv[0] -- path to electron
-        // process.argv[1] -- path to package
-        // process.argv[2] -- path to file (optional)
-        if (process.argv.length > 2) {
-            this.targetFile = process.argv[2];
-        }
-        ipcMain.on('retrieve-content-result-for-save', (_event, content : string) => {
+        ipcMain.on('retrieve-content-result-for-save', (_event, content: string) => {
             this.onRetrieveContentResultForSave(content);
         });
         this.createMenuBar();
         this.createWindow();
-
     }
 
     private saveFileContent() {
@@ -136,11 +134,13 @@ class MainApp {
             console.error('no main window exists');
             return;
         }
-        dialog.showOpenDialog(this.mainWindow, {properties: ['openFile'], filters: [{
-            name: 'Markdown', extensions: ['md']
-        }, {
-            name: 'All Files', extensions: ['*']
-        }]}).then((result) => {
+        dialog.showOpenDialog(this.mainWindow, {
+            properties: ['openFile'], filters: [{
+                name: 'Markdown', extensions: ['md']
+            }, {
+                name: 'All Files', extensions: ['*']
+            }]
+        }).then((result) => {
             if (result.filePaths.length > 0) {
                 this.openFile(result.filePaths[0]);
             } else {
@@ -159,10 +159,6 @@ class MainApp {
         } catch (error) {
             console.error('${file} does not exist');
         }
-    }
-
-    private onReady() {
-        this.create();
     }
 
     private onActivated() {
