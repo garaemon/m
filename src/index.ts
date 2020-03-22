@@ -2,15 +2,33 @@
 
 import { BrowserWindow, app, App, Menu, dialog, ipcMain} from 'electron'
 import { statSync, readFileSync, writeFileSync } from 'fs';
+import * as yargs from 'yargs';
 
 class MainApp {
     private mainWindow: BrowserWindow | null = null;
     private app: App;
     private mainURL: string = `file://${__dirname}/index.html`
-    private targetFile : string | null = null;
+    private targetFile: string | null = null;
+    private debugMode: boolean = false;
 
     constructor(app: App) {
         this.app = app;
+
+        // Parse command line argument
+        const argv = yargs.
+            option('debug', {
+                description: 'Run with dev tools',
+                alias: 'd',
+                type: 'boolean',
+            }).argv;
+        if (argv._.length != 0) {
+            this.targetFile = argv._[0];
+        }
+        if (argv.debug) {
+            this.debugMode = true;
+        }
+        console.log(argv);
+
         this.app.on('window-all-closed', this.onWindowAllClosed.bind(this))
         this.app.on('ready', this.create.bind(this));
         this.app.on('activate', this.onActivated.bind(this));
@@ -32,7 +50,9 @@ class MainApp {
                 nodeIntegration: true,
             }
         });
-        // this.mainWindow.webContents.openDevTools();
+        if (this.debugMode) {
+            this.mainWindow.webContents.openDevTools();
+        }
         this.mainWindow.loadURL(this.mainURL);
         this.mainWindow.on('closed', () => {
             this.mainWindow = null;
