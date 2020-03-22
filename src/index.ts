@@ -27,7 +27,6 @@ class MainApp {
         if (argv.debug) {
             this.debugMode = true;
         }
-        console.log(argv);
 
         this.app.on('window-all-closed', this.onWindowAllClosed.bind(this))
         this.app.on('ready', this.onReady.bind(this));
