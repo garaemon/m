@@ -48,12 +48,15 @@ export default class Editor extends Component<EditorProps, EditorStates> {
     }
 
     componentDidMount() {
+        console.log('componentDidMount');
         ipcRenderer.on('file-content', (_event : IpcRendererEvent, content: string) => {
+            console.log('file-content is called');
             this.setState({'content': content});
         });
         ipcRenderer.on('retrieve-content-for-save', (event : IpcRendererEvent) => {
             event.sender.send('retrieve-content-result-for-save', this.state.shown_content);
         });
+        ipcRenderer.send('render-process-ready');
     }
 
     onBeforeChange(_editor: codemirror.Editor, _data: codemirror.EditorChange, value: string) {

@@ -56,13 +56,6 @@ class MainApp {
         this.mainWindow.on('closed', () => {
             this.mainWindow = null;
         });
-        this.mainWindow.on('show', () => {
-            if (this.targetFile != null) {
-                if (this.targetFile != null) {
-                    this.openFile(this.targetFile);
-                }
-            }
-        });
     }
 
     private createMenuBar() {
@@ -115,8 +108,18 @@ class MainApp {
     }
 
     private create() {
+        // Register callbacks
         ipcMain.on('retrieve-content-result-for-save', (_event, content: string) => {
             this.onRetrieveContentResultForSave(content);
+        });
+        ipcMain.on('render-process-ready', (_event) => {
+            // Wait for 'render-process-ready' event to be sent from render process
+            // before opening file.
+            if (this.targetFile != null) {
+                if (this.targetFile != null) {
+                    this.openFile(this.targetFile);
+                }
+            }
         });
         this.createMenuBar();
         this.createWindow();
@@ -150,12 +153,17 @@ class MainApp {
 
     private openFile(file: string) {
         try {
+
             statSync(file);
+            console.log(`Reading file: ${file}`);
             const content = readFileSync(file, 'utf-8');
+            console.log('Read file');
             if (this.mainWindow != null) {
+                console.log('sending...');
                 this.mainWindow.webContents.send('file-content', content);
             }
-        } catch (error) {
+        }
+        catch (error) {
             console.error('${file} does not exist');
         }
     }
