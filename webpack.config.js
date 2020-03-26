@@ -3,6 +3,7 @@ const path = require('path');
 const main = {
   mode: 'development',
   target: 'electron-main',
+  devtool: 'inline-source-map',
   entry: path.join(__dirname, 'src', 'index'),
   output: {
     filename: 'index.js',

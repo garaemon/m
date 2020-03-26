@@ -2,7 +2,11 @@
 
 import { BrowserWindow, app, App, Menu, dialog, ipcMain } from 'electron'
 import { statSync, readFileSync, writeFileSync } from 'fs';
+import { basename } from 'path';
 import * as yargs from 'yargs';
+import sourceMapSupport from 'source-map-support'
+
+import {AppConfig} from './AppConfig';
 
 class MainApp {
     private mainWindow: BrowserWindow | null = null;
@@ -10,8 +14,10 @@ class MainApp {
     private mainURL: string = `file://${__dirname}/index.html`
     private targetFile: string | null = null;
     private debugMode: boolean = false;
+    private config: AppConfig = new AppConfig();
 
     constructor(app: App) {
+        sourceMapSupport.install();
         this.app = app;
 
         // Parse command line argument
@@ -28,6 +34,7 @@ class MainApp {
             this.debugMode = true;
         }
 
+        this.config.initializeAndReadConfig();
         this.app.on('window-all-closed', this.onWindowAllClosed.bind(this))
         this.app.on('ready', this.onReady.bind(this));
         this.app.on('activate', this.onActivated.bind(this));

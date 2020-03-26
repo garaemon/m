@@ -24,6 +24,8 @@
     "@types/codemirror": "0.0.87",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
+    "@types/source-map-support": "^0.5.1",
+    "@types/yaml": "^1.2.0",
     "@types/yargs": "^15.0.4",
     "css-loader": "^3.4.2",
     "style-loader": "^1.1.3",
@@ -35,10 +37,13 @@
   "dependencies": {
     "codemirror": "^5.52.0",
     "electron": "^8.0.1",
+    "expand-home-dir": "0.0.3",
     "hypermd": "^0.3.11",
     "react": "^16.13.0",
     "react-codemirror2": "^6.0.0",
     "react-dom": "^16.13.0",
+    "source-map-support": "^0.5.16",
+    "yaml": "^1.8.3",
     "yargs": "^15.3.1"
   }
 }
