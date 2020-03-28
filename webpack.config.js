@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const main = {
   mode: 'development',
@@ -28,6 +29,15 @@ const main = {
   resolve: {
     extensions: ['.js', '.ts']
   },
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        // Copy images
+        from: 'node_modules/hypermd/theme/',
+        to: '',
+      },
+    ]),
+  ],
 };
 
 const renderer = {
