@@ -6,7 +6,7 @@ import * as yargs from 'yargs';
 import sourceMapSupport from 'source-map-support'
 import * as log4js from 'log4js';
 
-import {AppConfig} from './AppConfig';
+import { AppConfig } from './AppConfig';
 
 class MainApp {
     private mainWindow: BrowserWindow | null = null;
