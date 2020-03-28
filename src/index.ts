@@ -89,6 +89,7 @@ class MainApp {
                 submenu: [
                     {
                         label: 'Open',
+                        accelerator: 'Command+F',
                         click: (_item, _focusedWindow) => {
                             this.openFileWithDialog();
                         }
