@@ -169,6 +169,7 @@ class MainApp {
             if (this.mainWindow != null) {
                 console.log('sending...');
                 this.mainWindow.webContents.send('file-content', content);
+                this.mainWindow.webContents.send('set-title', file);
             }
         }
         catch (error) {
