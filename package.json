@@ -43,6 +43,7 @@
     "electron": "^8.0.1",
     "expand-home-dir": "0.0.3",
     "hypermd": "^0.3.11",
+    "log4js": "^6.1.2",
     "react": "^16.13.0",
     "react-codemirror2": "^6.0.0",
     "react-dom": "^16.13.0",

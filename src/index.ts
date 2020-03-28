@@ -4,6 +4,7 @@ import { BrowserWindow, app, App, Menu, dialog, ipcMain } from 'electron'
 import { statSync, readFileSync, writeFileSync } from 'fs';
 import * as yargs from 'yargs';
 import sourceMapSupport from 'source-map-support'
+import * as log4js from 'log4js';
 
 import {AppConfig} from './AppConfig';
 
@@ -14,6 +15,7 @@ class MainApp {
     private targetFile: string | null = null;
     private debugMode: boolean = false;
     private config: AppConfig = new AppConfig();
+    private logger: log4js.Logger = log4js.getLogger('MainApp');
 
     constructor(app: App) {
         sourceMapSupport.install();
@@ -31,6 +33,9 @@ class MainApp {
         }
         if (argv.debug) {
             this.debugMode = true;
+            this.logger.level = 'debug';
+        } else {
+            this.logger.level = 'info';
         }
 
         this.config.initializeAndReadConfig();
@@ -110,7 +115,7 @@ class MainApp {
     }
 
     private onReady() {
-        console.log('onReady is called');
+        this.logger.info('onReady is called');
         this.create();
     }
 
@@ -140,7 +145,7 @@ class MainApp {
 
     private openFileWithDialog() {
         if (this.mainWindow == null) {
-            console.error('no main window exists');
+            this.logger.error('no main window exists');
             return;
         }
         dialog.showOpenDialog(this.mainWindow, {
@@ -155,7 +160,7 @@ class MainApp {
                 this.targetFile = targetFile;
                 this.openFile(targetFile);
             } else {
-                console.log('No file is selected');
+                this.logger.info('No file is selected');
             }
         });
     }
@@ -164,17 +169,17 @@ class MainApp {
         try {
 
             statSync(file);
-            console.log(`Reading file: ${file}`);
+            this.logger.info(`Reading file: ${file}`);
             const content = readFileSync(file, 'utf-8');
-            console.log('Read file');
+            this.logger.info('Read file');
             if (this.mainWindow != null) {
-                console.log('sending...');
+                this.logger.info('sending...');
                 this.mainWindow.webContents.send('file-content', content);
                 this.mainWindow.webContents.send('set-title', file);
             }
         }
         catch (error) {
-            console.error('${file} does not exist');
+            this.logger.error('${file} does not exist');
         }
     }
 
