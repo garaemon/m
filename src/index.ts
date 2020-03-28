@@ -102,6 +102,17 @@ class MainApp {
                     }
                 ]
             },
+            {
+                label: 'Edit',
+                submenu: [
+                    { role: 'undo' },
+                    { role: 'redo' },
+                    { type: 'separator' },
+                    { role: 'cut' },
+                    { role: 'copy' },
+                    { role: 'paste' },
+                ]
+            },
         ];
         const menu = Menu.buildFromTemplate(template);
         Menu.setApplicationMenu(menu);
