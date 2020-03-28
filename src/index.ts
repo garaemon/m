@@ -151,7 +151,9 @@ class MainApp {
             }]
         }).then((result) => {
             if (result.filePaths.length > 0) {
-                this.openFile(result.filePaths[0]);
+                const targetFile = result.filePaths[0];
+                this.targetFile = targetFile;
+                this.openFile(targetFile);
             } else {
                 console.log('No file is selected');
             }
