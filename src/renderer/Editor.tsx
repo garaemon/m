@@ -74,6 +74,9 @@ export default class Editor extends Component<EditorProps, EditorStates> {
         ipcRenderer.on('update-config', (_event: IpcRendererEvent, content: IAppConfig) => {
             this.setState({ config: content });
         });
+        ipcRenderer.on('set-title', (_event, content: string) => {
+            document.title = content;
+        });
         ipcRenderer.send('render-process-ready');
     }
 
