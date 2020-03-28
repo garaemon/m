@@ -100,6 +100,8 @@ export default class Editor extends Component<EditorProps, EditorStates> {
             hmdClick: true,
             hmdHover: true,
             hmdTableAlign: true,
+
+            lineWrapping: true,
         };
 
         return (<CodeMirror
