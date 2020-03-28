@@ -1,0 +1,6 @@
+@import '~hypermd/theme/hypermd-light.scss';
+
+.cm-s-m  {
+    @extend .cm-s-hypermd-light;
+    font-family: monospace;
+}

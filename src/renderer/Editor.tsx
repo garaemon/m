@@ -9,8 +9,7 @@ import * as codemirror from 'codemirror';
 const ipcRenderer = window.require('electron').ipcRenderer;
 
 import 'codemirror/lib/codemirror.css';
-import 'hypermd/mode/hypermd.css';
-import 'hypermd/theme/hypermd-light.css';
+import './theme/m.scss';
 
 import 'codemirror/lib/codemirror';
 
@@ -86,7 +85,8 @@ export default class Editor extends Component<EditorProps, EditorStates> {
         const options = {
             mode: 'hypermd',
             // mode: 'gfm',
-            theme: 'hypermd-light',
+            // theme: 'hypermd-light',
+            theme: 'm',
 
             hmdFold: {
                 image: this.state.config.foldImage,
