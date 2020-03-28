@@ -49,7 +49,7 @@ const renderer = {
     path: path.resolve(__dirname, 'dist', 'scripts')
   },
   resolve: {
-    extensions: ['.json', '.js', '.jsx', '.css', '.ts', '.tsx']
+    extensions: ['.json', '.js', '.jsx', '.css', '.ts', '.tsx', '.scss']
   },
   module: {
     rules: [{
@@ -73,6 +73,18 @@ const renderer = {
           }
         }
       ]
+    }, {
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            url: false,
+          },
+        },
+        'sass-loader',
+      ],
     }]
   },
 };
