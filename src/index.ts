@@ -2,7 +2,6 @@
 
 import { BrowserWindow, app, App, Menu, dialog, ipcMain } from 'electron'
 import { statSync, readFileSync, writeFileSync } from 'fs';
-import { basename } from 'path';
 import * as yargs from 'yargs';
 import sourceMapSupport from 'source-map-support'
 
