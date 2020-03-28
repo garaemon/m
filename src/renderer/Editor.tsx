@@ -63,13 +63,14 @@ export default class Editor extends Component<EditorProps, EditorStates> {
     }
 
     componentDidMount() {
-        console.log('componentDidMount');
         ipcRenderer.on('file-content', (_event: IpcRendererEvent, content: string) => {
-            console.log('file-content is called');
             this.setState({ 'content': content });
         });
         ipcRenderer.on('retrieve-content-for-save', (event: IpcRendererEvent) => {
             event.sender.send('retrieve-content-result-for-save', this.state.shown_content);
+            if (document.title.endsWith('*')) {
+                document.title = document.title.slice(0, -1);
+            }
         });
         ipcRenderer.on('update-config', (_event: IpcRendererEvent, content: IAppConfig) => {
             this.setState({ config: content });
@@ -82,6 +83,9 @@ export default class Editor extends Component<EditorProps, EditorStates> {
 
     onBeforeChange(_editor: codemirror.Editor, _data: codemirror.EditorChange, value: string) {
         this.setState({ 'shown_content': value });
+        if (!document.title.endsWith('*')) {
+            document.title = document.title + '*';
+        }
     }
 
     render() {
