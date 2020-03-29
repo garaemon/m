@@ -6,7 +6,6 @@ import React, { Component } from 'react';
  */
 import { UnControlled as CodeMirror } from 'react-codemirror2';
 import codemirror from 'codemirror';
-import { debounce } from 'lodash';
 
 const ipcRenderer = window.require('electron').ipcRenderer;
 
@@ -40,9 +39,9 @@ import 'hypermd/addon/paste';
 import 'hypermd/addon/insert-file';
 import 'hypermd/addon/mode-loader';
 import 'hypermd/addon/table-align';
+import CompleteEmoji from 'hypermd/goods/complete-emoji';
 
 import { IAppConfig } from '../IAppConfig';
-import { emojiList } from './EmojiList';
 
 interface EditorProps {
 }
@@ -103,60 +102,13 @@ export default class Editor extends Component<EditorProps, EditorStates> {
     onEditorDidMount(editor: codemirror.Editor) {
         this.editor = editor;
         /* Use debounce to throttle change event.*/
-        this.editor.on('change', debounce((editor: codemirror.Editor) => {
-            codemirror.showHint(editor, undefined, {
-                completeSingle: false, hint: () => { return this.emojiComplete(editor); },
-            });
-        }, 500));
-    }
-
-    emojiComplete(editor: codemirror.Editor): codemirror.Hints {
-        const cur = editor.getCursor();
-        const token = editor.getTokenAt(cur);
-        const start = token.start;
-        const end = cur.ch;
-        const line = cur.line;
-        const emptyResult = {
-            list: [],
-            from: codemirror.Pos(0, 0),
-            to: codemirror.Pos(0, 0),
-        };;
-
-        // ch is the position of word.
-        // ch starts with current cursor position and move it left until find ':'.
-        // If current line is 'abc :foo bar', The tokens are 'abc', ' ', ':', 'foo', ' ', 'bar'.
-        // Be careful that ':' is not included in a token with trailing characters.
-        let previousWord = token.string;
-        for (let ch = cur.ch;
-            ch > -1 /* Till the beggining of the line*/;
-            --ch /* move cursor to left */) {
-            const currentToken = editor.getTokenAt({ ch, line }).string;
-            // if currentToken is a white space, immediately stops completion because it
-            // means looping over multiple words.
-            if (/\s/.test(currentToken)) {
-                return emptyResult;
-            }
-
-            if (currentToken == ':') {
-                const filteredList = emojiList.filter((item) => {
-                    return item.startsWith(previousWord);
-                });
-                if (filteredList.length > 0) {
-                    return {
-                        list: filteredList.map((candidate) => { return candidate + ':'; }),
-                        from: codemirror.Pos(cur.line, start),
-                        to: codemirror.Pos(cur.line, end)
-                    };
+        const emojiHintFunc = CompleteEmoji.createHintFunc();
+        this.editor.on(
+            'inputRead', (editor: codemirror.Editor, change: codemirror.EditorChange) => {
+                if (change.text.length === 1 && change.text[0] === ':') {
+                    codemirror.showHint(editor, emojiHintFunc);
                 }
-            }
-            // Memorize current currentToken for next loop because emoji-like string, such as :foo,
-            // will be devided into two tokens; one is trailing word and the other is ':'.
-            // If the next loop find ':' as currentToken, the completion will be based on
-            // previousWord.
-            previousWord = currentToken;
-        }
-
-        return emptyResult;
+            });
     }
 
     render() {
