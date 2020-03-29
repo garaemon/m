@@ -11,7 +11,7 @@ import { AppConfig } from './AppConfig';
 class MainApp {
     private mainWindow: BrowserWindow | null = null;
     private app: App;
-    private mainURL: string = `file://${__dirname}/index.html`
+    private mainURL: string = `file://${__dirname}/scripts/html/index.html`
     private targetFile: string | null = null;
     private debugMode: boolean = false;
     private config: AppConfig = new AppConfig();

@@ -1,9 +1,3 @@
 node_modules/
-dist/*.js
-dist/scripts/*.js
-dist/*png
-dist/*gif
-dist/*css
-dist/*scss
-dist/*woff
+dist/
 .log/

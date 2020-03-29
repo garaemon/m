@@ -29,15 +29,6 @@ const main = {
   resolve: {
     extensions: ['.js', '.ts']
   },
-  plugins: [
-    new CopyWebpackPlugin([
-      {
-        // Copy images
-        from: 'node_modules/hypermd/theme/',
-        to: '',
-      },
-    ]),
-  ],
 };
 
 const renderer = {
@@ -87,6 +78,20 @@ const renderer = {
       ],
     }]
   },
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        // Copy html files
+        from: 'src/renderer/html',
+        to: 'html',
+      },
+      {
+        // Copy images
+        from: 'node_modules/hypermd/theme/',
+        to: 'html',
+      },
+    ]),
+  ]
 };
 
 module.exports = [
