@@ -41,6 +41,8 @@ import 'hypermd/addon/insert-file';
 import 'hypermd/addon/mode-loader';
 import 'hypermd/addon/table-align';
 
+import 'hypermd/keymap/hypermd';
+
 import { IAppConfig } from '../IAppConfig';
 import { emojiList } from './EmojiList';
 
@@ -165,6 +167,7 @@ export default class Editor extends Component<EditorProps, EditorStates> {
             // mode: 'gfm',
             // theme: 'hypermd-light',
             theme: 'm',
+            keyMap: 'hypermd',
 
             hmdFold: {
                 image: this.state.config.foldImage,
