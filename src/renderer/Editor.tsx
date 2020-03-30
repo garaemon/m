@@ -40,7 +40,7 @@ import 'hypermd/addon/insert-file';
 import 'hypermd/addon/mode-loader';
 import 'hypermd/addon/table-align';
 import CompleteEmoji from 'hypermd/goods/complete-emoji';
-
+import { ClickInfo } from 'hypermd/addon/click';
 import 'hypermd/keymap/hypermd';
 
 import { IAppConfig } from '../IAppConfig';
@@ -130,7 +130,7 @@ export default class Editor extends Component<EditorProps, EditorStates> {
             hmdHideToken: true,
             hmdCursorDebounce: true,
             hmdPaste: true,
-            hmdClick: true,
+            hmdClick: this.onClick.bind(this),
             hmdHover: true,
             hmdTableAlign: true,
 
@@ -146,4 +146,9 @@ export default class Editor extends Component<EditorProps, EditorStates> {
             options={options} />);
     }
 
+    private onClick(info: ClickInfo, _editor: codemirror.Editor) {
+        if (info.type === 'link' && (info.ctrlKey || info.altKey || info.shiftKey)) {
+            ipcRenderer.send('open-url', info.url);
+        }
+    }
 }

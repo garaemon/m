@@ -1,6 +1,6 @@
 /* Entry file for main process */
 
-import { BrowserWindow, app, App, Menu, dialog, ipcMain } from 'electron'
+import { BrowserWindow, app, App, Menu, dialog, ipcMain, shell } from 'electron'
 import { statSync, readFileSync, writeFileSync } from 'fs';
 import * as yargs from 'yargs';
 import sourceMapSupport from 'source-map-support'
@@ -135,6 +135,9 @@ class MainApp {
         // Register callbacks
         ipcMain.on('retrieve-content-result-for-save', (_event, content: string) => {
             this.onRetrieveContentResultForSave(content);
+        });
+        ipcMain.on('open-url', (_event, content: string) => {
+            shell.openExternal(content);
         });
         ipcMain.on('render-process-ready', (_event) => {
             // Wait for 'render-process-ready' event to be sent from render process
