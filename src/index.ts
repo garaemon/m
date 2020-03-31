@@ -182,7 +182,6 @@ class MainApp {
 
     private openFile(file: string) {
         try {
-
             statSync(file);
             this.logger.info(`Reading file: ${file}`);
             const content = readFileSync(file, 'utf-8');
@@ -194,7 +193,10 @@ class MainApp {
             }
         }
         catch (error) {
-            this.logger.error('${file} does not exist');
+            this.logger.info(`${file} does not exist, create it`);
+            if (this.mainWindow != null) {
+                this.mainWindow.webContents.send('set-title', file);
+            }
         }
     }
 
