@@ -44,6 +44,7 @@ import { ClickInfo } from 'hypermd/addon/click';
 import 'hypermd/keymap/hypermd';
 
 import { IAppConfig } from '../IAppConfig';
+import { IInsertImageLink } from '../IInsertImageLink';
 
 interface EditorProps {
 }
@@ -87,6 +88,27 @@ export default class Editor extends Component<EditorProps, EditorStates> {
         ipcRenderer.on('set-title', (_event, content: string) => {
             document.title = content;
         });
+        ipcRenderer.on('insert-image-link', (_event, link: IInsertImageLink) => {
+            if (this.editor === null) {
+                return;
+            }
+            const doc = this.editor.getDoc();
+            doc.replaceRange(`![${link.name}](${link.path})`, doc.getCursor());
+        });
+        document.ondragover = document.ondrop = (e) => {
+            e.preventDefault();
+        };
+        document.body.addEventListener('drop', (e) => {
+            if (e.dataTransfer !== null) {
+                const file = e.dataTransfer.files[0];
+                ipcRenderer.send('drag-and-drop', {
+                    name: file.name,
+                    path: file.path,
+                    type: file.type,
+                });
+            }
+        });
+
         ipcRenderer.send('render-process-ready');
     }
 

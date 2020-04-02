@@ -1,12 +1,14 @@
 /* Entry file for main process */
 
 import { BrowserWindow, app, App, Menu, dialog, ipcMain, shell, Event } from 'electron'
-import { statSync, readFileSync, writeFileSync } from 'fs';
+import { statSync, readFileSync, writeFileSync, mkdirSync, copyFile } from 'fs';
+import * as path from 'path';
 import * as yargs from 'yargs';
 import sourceMapSupport from 'source-map-support'
 import * as log4js from 'log4js';
 
 import { AppConfig } from './AppConfig';
+import { IDropFile } from './IDropFile';
 
 class MainApp {
     private mainWindow: BrowserWindow | null = null;
@@ -180,8 +182,45 @@ class MainApp {
         ipcMain.on('changed', () => {
             this.isModified = true;
         });
+        ipcMain.on('drag-and-drop', (_event, content: IDropFile) => {
+            this.logger.info('received drag-and-drop event');
+            if (content.type.startsWith('image')) {
+                this.copyAndInsertImage(content);
+            }
+        });
         this.createMenuBar();
         this.createWindow();
+    }
+
+    private copyAndInsertImage(content: IDropFile) {
+        if (this.targetFile === null) {
+            this.logger.error('no active target file is specified, do nothing');
+            return;
+        }
+        const imageDir = path.join(path.dirname(path.resolve(this.targetFile)), '.images');
+        try {
+            mkdirSync(imageDir);
+        }
+        catch {
+            this.logger.warn(`Failed to create ${imageDir}`);
+        }
+        const targetFile = path.join(imageDir, content.name);
+        // overwrite file without any question.
+        // TODO: should ask user to overwrite the existing file.
+        copyFile(content.path, targetFile, (err) => {
+            if (err) {
+                this.logger.error(err.stack);
+            }
+            else {
+                this.logger.info(`copied file ${content.path} => ${targetFile}`);
+                if (this.mainWindow != null) {
+                    this.mainWindow.webContents.send('insert-image-link', {
+                        path: encodeURI(targetFile),
+                        name: content.name
+                    });
+                }
+            }
+        });
     }
 
     private saveFileContent() {
