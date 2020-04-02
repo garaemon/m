@@ -114,9 +114,6 @@ export default class Editor extends Component<EditorProps, EditorStates> {
 
     onBeforeChange(editor: codemirror.Editor, _data: codemirror.EditorChange, value: string) {
         this.setState({ 'shown_content': value });
-        if (!document.title.endsWith('*')) {
-            document.title = document.title + '*';
-        }
     }
 
     onChange(editor: codemirror.Editor) {
@@ -129,6 +126,10 @@ export default class Editor extends Component<EditorProps, EditorStates> {
         const emojiHintFunc = CompleteEmoji.createHintFunc();
         this.editor.on(
             'inputRead', (editor: codemirror.Editor, change: codemirror.EditorChange) => {
+                if (!document.title.endsWith('*')) {
+                    document.title = document.title + '*';
+                }
+                ipcRenderer.send('changed');
                 if (change.text.length === 1 && change.text[0] === ':') {
                     codemirror.showHint(editor, emojiHintFunc);
                 }
