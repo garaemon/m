@@ -1,6 +1,6 @@
 /* Entry file for main process */
 
-import { BrowserWindow, app, App, Menu, dialog, ipcMain, shell } from 'electron'
+import { BrowserWindow, app, App, Menu, dialog, ipcMain, shell, Event } from 'electron'
 import { statSync, readFileSync, writeFileSync } from 'fs';
 import * as yargs from 'yargs';
 import sourceMapSupport from 'source-map-support'
@@ -16,6 +16,8 @@ class MainApp {
     private debugMode: boolean = false;
     private config: AppConfig = new AppConfig();
     private logger: log4js.Logger = log4js.getLogger('MainApp');
+    private isModified: boolean = false;
+    private quitAfterSave: boolean = false;
 
     constructor(app: App) {
         sourceMapSupport.install();
@@ -65,8 +67,31 @@ class MainApp {
         }
         this.mainWindow.loadURL(this.mainURL);
         this.mainWindow.on('closed', () => {
-            this.mainWindow = null;
+            this.onClosed();
         });
+        this.mainWindow.on('close', (e) => {
+            this.onClose(e);
+        });
+    }
+
+    private onClose(event: Event) {
+        if (this.isModified) {
+            this.logger.info('File content is not saved');
+            const result = dialog.showMessageBoxSync({
+                buttons: ['Yes', 'No'],
+                message: 'You have not saved updated file.\nSave the updated file content?'
+            });
+            if (result === 0) { // Yes
+                event.preventDefault(); // Do not close window untill save file content.
+                this.logger.info('Save file before close window');
+                this.quitAfterSave = true;
+                this.saveFileContent();
+            }
+        }
+    }
+
+    private onClosed() {
+        this.mainWindow = null;
     }
 
     private createMenuBar() {
@@ -124,6 +149,10 @@ class MainApp {
             return;
         }
         writeFileSync(this.targetFile, content);
+        this.isModified = false;
+        if (this.quitAfterSave) {
+            this.app.quit();
+        }
     }
 
     private onReady() {
@@ -147,6 +176,9 @@ class MainApp {
                     this.openFile(this.targetFile);
                 }
             }
+        });
+        ipcMain.on('changed', () => {
+            this.isModified = true;
         });
         this.createMenuBar();
         this.createWindow();
