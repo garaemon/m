@@ -167,8 +167,9 @@ class MainApp {
         ipcMain.on('retrieve-content-result-for-save', (_event, content: string) => {
             this.onRetrieveContentResultForSave(content);
         });
-        ipcMain.on('open-url', (_event, content: string) => {
-            shell.openExternal(content);
+        ipcMain.on('open-url', (_event, url: string) => {
+            this.logger.info(`Opening url ${url}`);
+            shell.openExternal(url);
         });
         ipcMain.on('render-process-ready', (_event) => {
             // Wait for 'render-process-ready' event to be sent from render process
