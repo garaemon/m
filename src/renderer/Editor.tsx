@@ -172,6 +172,9 @@ export default class Editor extends Component<EditorProps, EditorStates> {
     private onClick(info: ClickInfo, _editor: codemirror.Editor) {
         if (info.type === 'link' && (info.ctrlKey || info.altKey || info.shiftKey)) {
             ipcRenderer.send('open-url', info.url);
+            // return false to prevent for render process to open new page when clicking link with
+            // ctrlKey down.
+            return false;
         }
     }
 }
