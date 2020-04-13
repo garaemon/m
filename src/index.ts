@@ -1,6 +1,7 @@
 /* Entry file for main process */
 
 import { BrowserWindow, app, App, Menu, dialog, ipcMain, shell, Event } from 'electron'
+import contextMenu from 'electron-context-menu';
 import { statSync, readFileSync, writeFileSync, mkdirSync, copyFile } from 'fs';
 import * as path from 'path';
 import * as yargs from 'yargs';
@@ -190,6 +191,17 @@ class MainApp {
             }
         });
         this.createMenuBar();
+        contextMenu({
+            append: (_defaultActions, params, _browserWindow) => [
+                {
+                    label: 'Search Google for "{selection}"',
+                    // Only show it when right-clicking text
+                    visible: params.selectionText.trim().length > 0,
+                    click: () => {
+                        shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
+                    }
+                }]
+        });
         this.createWindow();
     }
 

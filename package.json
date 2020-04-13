@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "codemirror": "^5.52.0",
+    "electron-context-menu": "^0.16.0",
     "expand-home-dir": "0.0.3",
     "hypermd": "^0.3.11",
     "lodash": "^4.17.15",
