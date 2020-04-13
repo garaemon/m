@@ -192,13 +192,20 @@ class MainApp {
         });
         this.createMenuBar();
         contextMenu({
-            append: (_defaultActions, params, _browserWindow) => [
+            append: (_defaultActions, params, browserWindow) => [
                 {
                     label: 'Search Google for "{selection}"',
                     // Only show it when right-clicking text
                     visible: params.selectionText.trim().length > 0,
                     click: () => {
                         shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
+                    }
+                }, {
+                    label: 'Insert date (YYYY-MM-DD HH:MM:SS)',
+                    click: () => {
+                        if (browserWindow instanceof BrowserWindow) {
+                            browserWindow.webContents.send('insert-date');
+                        }
                     }
                 }]
         });

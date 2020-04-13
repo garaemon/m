@@ -6,6 +6,7 @@ import React, { Component } from 'react';
  */
 import { UnControlled as CodeMirror } from 'react-codemirror2';
 import codemirror from 'codemirror';
+import Moment from 'moment';
 
 const ipcRenderer = window.require('electron').ipcRenderer;
 
@@ -94,6 +95,14 @@ export default class Editor extends Component<EditorProps, EditorStates> {
             }
             const doc = this.editor.getDoc();
             doc.replaceRange(`![${link.name}](${link.path})`, doc.getCursor());
+        });
+        ipcRenderer.on('insert-date', (_event, link: IInsertImageLink) => {
+            if (this.editor === null) {
+                return;
+            }
+            const doc = this.editor.getDoc();
+            const date_str = Moment().format('YYYY-MM-DD HH:mm:ss');
+            doc.replaceRange(date_str, doc.getCursor());
         });
         document.ondragover = document.ondrop = (e) => {
             e.preventDefault();
