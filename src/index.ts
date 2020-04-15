@@ -126,7 +126,12 @@ class MainApp {
                         label: 'save',
                         accelerator: 'Command+S',
                         click: (_item, _focusedWindow) => {
-                            this.saveFileContent();
+                            if (this.targetFile) {
+                                this.saveFileContent();
+                            }
+                            else {
+                                this.saveAsWithDialog();
+                            }
                         }
                     }
                 ]
@@ -145,6 +150,29 @@ class MainApp {
         ];
         const menu = Menu.buildFromTemplate(template);
         Menu.setApplicationMenu(menu);
+    }
+
+    private saveAsWithDialog() {
+        if (this.mainWindow === null) {
+            this.logger.error('No valid window exists');
+            return;
+        }
+        dialog.showSaveDialog(this.mainWindow, {
+            title: 'Save file as',
+            filters: [
+                {
+                    name: 'Markdown',
+                    extensions: ['md']
+                }
+            ],
+            properties: ['createDirectory']
+        }).then((result: Electron.SaveDialogReturnValue) => {
+            if (!result.filePath) {
+                return;
+            }
+            this.targetFile = result.filePath;
+            this.saveFileContent();
+        })
     }
 
     private onRetrieveContentResultForSave(content: string) {
