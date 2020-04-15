@@ -3,10 +3,10 @@
 import { BrowserWindow, app, App, Menu, dialog, ipcMain, shell, Event } from 'electron'
 import contextMenu from 'electron-context-menu';
 import { statSync, readFileSync, writeFileSync, mkdirSync, copyFile } from 'fs';
+import * as log4js from 'log4js';
 import * as path from 'path';
 import * as yargs from 'yargs';
 import sourceMapSupport from 'source-map-support'
-import * as log4js from 'log4js';
 
 import { AppConfig } from './AppConfig';
 import { IDropFile } from './IDropFile';
