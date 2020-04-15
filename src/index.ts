@@ -198,7 +198,7 @@ class MainApp {
                     // Only show it when right-clicking text
                     visible: params.selectionText.trim().length > 0,
                     click: () => {
-                        shell.openExternal(`https://google.com/search?q=${encodeURIComponent(params.selectionText)}`);
+                        shell.openExternal(this.getGoogleQueryUrl(params.selectionText));
                     }
                 }, {
                     label: 'Insert date (YYYY-MM-DD HH:MM:SS)',
@@ -210,6 +210,10 @@ class MainApp {
                 }]
         });
         this.createWindow();
+    }
+
+    private getGoogleQueryUrl(text: string) : string {
+        return `https://google.com/search?q=${encodeURIComponent(text)}`;
     }
 
     private copyAndInsertImage(content: IDropFile) {
