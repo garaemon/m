@@ -240,7 +240,7 @@ class MainApp {
         this.createWindow();
     }
 
-    private getGoogleQueryUrl(text: string) : string {
+    private getGoogleQueryUrl(text: string): string {
         return `https://google.com/search?q=${encodeURIComponent(text)}`;
     }
 
