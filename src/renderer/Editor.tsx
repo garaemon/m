@@ -143,25 +143,54 @@ export default class Editor extends Component<EditorProps, EditorStates> {
                 if (change.text.length === 1 && change.text[0] === ':') {
                     codemirror.showHint(editor, emojiHintFunc);
                 }
+
             });
+
+        this.editor.on('cursorActivity', (editor: codemirror.Editor) => {
+          if (!this.editor) {
+            return;
+          }
+          const doc = this.editor.getDoc();
+          const cursor = doc.getCursor();
+          this.updateInputFieldHeight(cursor.line);
+        });
+    }
+
+    updateInputFieldHeight(line: number) {
+        // TODO: The timing to update heightof the parent of the textarea might be slow if this
+        // function is registered cursorActivity callback.
+        if (this.editor === null) {
+            return;
+        }
         // Workaround not to hide the input character by IME window.
         // See the following issues and changes:
         // - https://github.com/codemirror/CodeMirror/issues/4089
         // - https://github.com/BoostIO/Boostnote/issues/147
         // - https://github.com/textlint/textlint-app/commit/a25983b1c85a7be1b137bae31f700c59bdc96018
         const inputField = this.editor.getInputField();
-        if (inputField.parentElement) {
-          // In order not to hide the input character by IME window, it is important to move the
-          // hidden <textarea> to the bottom of the input character.
-          // In the original codemirror implementation, the textarea cannot be moved to the bottom
-          // of the input character because of the parent element of the textarea. The style of the
-          // parent element has 'height 0px' and 'overflow hidden'. These settings enable to hide
-          // input cursor but they does not allow the textarea move to the bottom of the input
-          // character. In order to allow it, `height 1em` style is introduced below.
-          inputField.parentElement.style.height = '1em';
-          // `width 0px` is introduced in order to hide the input cursor.
-          inputField.parentElement.style.width = '0px';
+        if (!inputField.parentElement) {
+            return;
         }
+        // In order not to hide the input character by IME window, it is important to move the
+        // hidden <textarea> to the bottom of the input character.
+        // In the original codemirror implementation, the textarea cannot be moved to the bottom
+        // of the input character because of the parent element of the textarea. The style of the
+        // parent element has 'height 0px' and 'overflow hidden'. These settings enable to hide
+        // input cursor but they does not allow the textarea move to the bottom of the input
+        // character. In order to allow it, `height 1em` style is introduced below.
+
+        // Use the cursor element to estimate the height of the current line.
+        const scroller = this.editor.getScrollerElement();
+        const cursorElement = scroller.getElementsByClassName('CodeMirror-cursor');
+        if (cursorElement) {
+            const cursorHeight = cursorElement[0].clientHeight;
+            inputField.parentElement.style.height = cursorHeight + 'px';
+            // Add negative offset to scroller in order to cancel the line height of
+            // `inputFIeld.parentElement`.
+            scroller.style.top = `-${cursorHeight}px`;
+        }
+        // `width 0px` is introduced in order to hide the input cursor.
+        inputField.parentElement.style.width = '0px';
         this.editor.refresh();
     }
 
