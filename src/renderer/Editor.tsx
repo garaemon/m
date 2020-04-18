@@ -56,6 +56,7 @@ interface EditorStates {
     config: IAppConfig;
 }
 
+
 export default class Editor extends Component<EditorProps, EditorStates> {
     private editor: codemirror.Editor | null = null;
 
@@ -143,13 +144,31 @@ export default class Editor extends Component<EditorProps, EditorStates> {
                     codemirror.showHint(editor, emojiHintFunc);
                 }
             });
+        // Workaround not to hide the input character by IME window.
+        // See the following issues and changes:
+        // - https://github.com/codemirror/CodeMirror/issues/4089
+        // - https://github.com/BoostIO/Boostnote/issues/147
+        // - https://github.com/textlint/textlint-app/commit/a25983b1c85a7be1b137bae31f700c59bdc96018
+        const inputField = this.editor.getInputField();
+        if (inputField.parentElement) {
+          // In order not to hide the input character by IME window, it is important to move the
+          // hidden <textarea> to the bottom of the input character.
+          // In the original codemirror implementation, the textarea cannot be moved to the bottom
+          // of the input character because of the parent element of the textarea. The style of the
+          // parent element has 'height 0px' and 'overflow hidden'. These settings enable to hide
+          // input cursor but they does not allow the textarea move to the bottom of the input
+          // character. In order to allow it, `height 1em` style is introduced below.
+          inputField.parentElement.style.height = '1em';
+          // `width 0px` is introduced in order to hide the input cursor.
+          inputField.parentElement.style.width = '0px';
+        }
+        this.editor.refresh();
     }
 
     render() {
         const options = {
             mode: 'hypermd',
             // mode: 'gfm',
-            // theme: 'hypermd-light',
             theme: 'm',
             keyMap: 'hypermd',
 
