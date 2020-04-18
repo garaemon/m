@@ -145,6 +145,15 @@ class MainApp {
                     { role: 'cut' },
                     { role: 'copy' },
                     { role: 'paste' },
+                    {
+                        label: 'Insert Date',
+                        accelerator: 'Command+Shift+D',
+                        click: () => {
+                            if (this.mainWindow !== null) {
+                                this.mainWindow.webContents.send('insert-date');
+                            }
+                        }
+                    }
                 ]
             },
         ];
