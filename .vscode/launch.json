@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "プログラムの起動",
+      "preLaunchTask": "npm: build",
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+      "sourceMaps": true,
+      "runtimeArgs": [
+        "${workspaceRoot}/dist/index.js",
+        "--remote-debugging-port=9222"
+      ],
+      "args": ["."],
+      "webRoot": "${workspaceRoot}",
+      "cwd": "${workspaceFolder}",
+      "outputCapture": "std"
+    }
+  ]
+}
