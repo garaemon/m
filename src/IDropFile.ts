@@ -1,5 +1,5 @@
 export interface IDropFile {
-    name: string;
-    path: string;
-    type: string;
+  name: string;
+  path: string;
+  type: string;
 }

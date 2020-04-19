@@ -1,8 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserWindow } from "electron";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserWindow } from 'electron';
 
-import Editor from "./Editor";
+import Editor from './Editor';
 
 interface MyComponentProps {
   // 必要なプロパティを記述
@@ -26,4 +26,4 @@ class MyComponent extends React.Component<MyComponentProps, MyComponentStates> {
 }
 
 // レンダリング
-ReactDOM.render(<MyComponent />, document.getElementById("contents"));
+ReactDOM.render(<MyComponent />, document.getElementById('contents'));
