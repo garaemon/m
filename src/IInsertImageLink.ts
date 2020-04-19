@@ -1,4 +1,4 @@
 export interface IInsertImageLink {
-    path: string;
-    name: string;
+  path: string;
+  name: string;
 }
