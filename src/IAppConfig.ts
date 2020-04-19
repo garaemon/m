@@ -3,4 +3,5 @@ export interface IAppConfig {
     foldLink: boolean;
     foldMath: boolean;
     foldEmoji: boolean;
+    showLineNumber: boolean;
 }

@@ -31,12 +31,11 @@ const main = {
   },
 };
 
-const renderer = {
+function rendererTemplate() {
+  return {
   mode: 'development',
   target: 'electron-renderer',
-  entry: path.join(__dirname, 'src', 'renderer', 'index'),
   output: {
-    filename: 'index.js',
     path: path.resolve(__dirname, 'dist', 'scripts')
   },
   resolve: {
@@ -93,7 +92,16 @@ const renderer = {
     ]),
   ]
 };
+}
+
+const rendererMain = rendererTemplate();
+rendererMain.entry = path.join(__dirname, 'src', 'renderer', 'index');
+rendererMain.output.filename = 'index.js'
+
+const rendererSettings = rendererTemplate();
+rendererSettings.entry = path.join(__dirname, 'src', 'renderer', 'settings');
+rendererSettings.output.filename = 'settings.js'
 
 module.exports = [
-  main, renderer
+  main, rendererMain, rendererSettings
 ];
