@@ -69,6 +69,7 @@ export default class Editor extends Component<EditorProps, EditorStates> {
         foldLink: true,
         foldMath: true,
         foldEmoji: true,
+        showLineNumber: false,
       },
     };
   }
@@ -85,6 +86,16 @@ export default class Editor extends Component<EditorProps, EditorStates> {
     });
     ipcRenderer.on("update-config", (_event: IpcRendererEvent, content: IAppConfig) => {
       this.setState({ config: content });
+      if (this.editor === null) {
+        return;
+      }
+      this.editor.setOption("hmdFold", {
+        image: content.foldImage,
+        link: content.foldLink,
+        math: content.foldMath,
+        emoji: content.foldEmoji,
+      });
+      this.editor.setOption("lineNumbers", content.showLineNumber);
     });
     ipcRenderer.on("set-title", (_event, content: string) => {
       document.title = content;
@@ -210,7 +221,7 @@ export default class Editor extends Component<EditorProps, EditorStates> {
       hmdClick: this.onClick.bind(this),
       hmdHover: true,
       hmdTableAlign: true,
-
+      lineNumbers: this.state.config.showLineNumber,
       lineWrapping: true,
     };
 

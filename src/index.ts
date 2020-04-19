@@ -8,13 +8,16 @@ import * as path from 'path';
 import * as yargs from 'yargs';
 import sourceMapSupport from 'source-map-support'
 
+import { IAppConfig } from './IAppConfig';
 import { AppConfig } from './AppConfig';
 import { IDropFile } from './IDropFile';
 
 class MainApp {
     private mainWindow: BrowserWindow | null = null;
+    private settingsWindow: BrowserWindow | null = null;
     private app: App;
     private mainURL: string = `file://${__dirname}/scripts/html/index.html`
+    private settingsURL: string = `file://${__dirname}/scripts/html/settings.html`;
     private targetFile: string | null = null;
     private debugMode: boolean = false;
     private config: AppConfig = new AppConfig();
@@ -104,6 +107,14 @@ class MainApp {
                 submenu: [
                     { role: 'about' },
                     { type: 'separator' },
+                    {
+                        label: 'Preferences',
+                        accelerator: 'Command+,',
+                        click: (_item, focusedWindow) => {
+                            this.openSettingsView();
+                        }
+                    },
+                    { type: 'separator' },
                     { role: 'services' },
                     { type: 'separator' },
                     { role: 'hide' },
@@ -161,6 +172,26 @@ class MainApp {
         Menu.setApplicationMenu(menu);
     }
 
+    private openSettingsView() {
+        if (this.settingsWindow !== null) {
+            return;
+        }
+        this.settingsWindow = new BrowserWindow({
+            width: 400,
+            height: 400,
+            minWidth: 500,
+            minHeight: 200,
+            acceptFirstMouse: true,
+            webPreferences: {
+                nodeIntegration: true,
+            }
+        });
+        this.settingsWindow.loadURL(this.settingsURL);
+        this.settingsWindow.on('closed', () => {
+            this.settingsWindow = null;
+        });
+    }
+
     private saveAsWithDialog() {
         if (this.mainWindow === null) {
             this.logger.error('No valid window exists');
@@ -202,6 +233,7 @@ class MainApp {
 
     private create() {
         // Register callbacks
+        // editor window
         ipcMain.on('retrieve-content-result-for-save', (_event, content: string) => {
             this.onRetrieveContentResultForSave(content);
         });
@@ -210,6 +242,9 @@ class MainApp {
             shell.openExternal(url);
         });
         ipcMain.on('render-process-ready', (_event) => {
+            if (this.mainWindow === null) {
+                return;
+            }
             // Wait for 'render-process-ready' event to be sent from render process
             // before opening file.
             if (this.targetFile != null) {
@@ -217,6 +252,7 @@ class MainApp {
                     this.openFile(this.targetFile);
                 }
             }
+            this.mainWindow.webContents.send('update-config', this.config.toDictionaryObject());
         });
         ipcMain.on('changed', () => {
             this.isModified = true;
@@ -227,6 +263,31 @@ class MainApp {
                 this.copyAndInsertImage(content);
             }
         });
+
+        // settings
+        ipcMain.on('settings-render-process-ready', () => {
+            this.settingsWindow?.webContents.send('settings',
+                this.config.toDictionaryObject());
+        });
+
+        ipcMain.on('close-settings-window', () => {
+            this.logger.info('Close sttings window');
+            if (this.settingsWindow === null) {
+                return;
+            }
+            this.settingsWindow.close();
+        });
+        ipcMain.on('save-settings', (_event, content: IAppConfig) => {
+            this.logger.info(`save settings: ${JSON.stringify(content)}`);
+            this.config.updateFromDictionaryObject(content);
+            this.config.save();
+            if (this.mainWindow === null) {
+                this.logger.error('no mainwindow is available');
+                return;
+            }
+            this.mainWindow.webContents.send('update-config', this.config.toDictionaryObject());
+        });
+
         this.createMenuBar();
         contextMenu({
             append: (_defaultActions, params, browserWindow) => [
