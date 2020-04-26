@@ -4,20 +4,20 @@ import { BrowserWindow } from 'electron';
 
 import Editor from './Editor';
 
-interface MyComponentProps {
+interface MMainComponentProps {
   // 必要なプロパティを記述
 }
 
-interface MyComponentStates {
+interface MMainComponentStates {
   // 必要なプロパティを記述
 }
 
 // クラスの場合
-class MyComponent extends React.Component<MyComponentProps, MyComponentStates> {
-  constructor(props: MyComponentProps) {
+class MMainComponent extends React.Component<MMainComponentProps, MMainComponentStates> {
+  constructor(props: MMainComponentProps) {
     super(props);
     this.state = {
-      // MyComponentStates と一致する必要あり
+      // MMainComponentStates と一致する必要あり
     };
   }
   public render(): React.ReactNode {
@@ -26,4 +26,4 @@ class MyComponent extends React.Component<MyComponentProps, MyComponentStates> {
 }
 
 // レンダリング
-ReactDOM.render(<MyComponent />, document.getElementById('contents'));
+ReactDOM.render(<MMainComponent />, document.getElementById('contents'));
