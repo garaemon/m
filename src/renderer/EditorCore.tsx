@@ -47,18 +47,18 @@ import 'hypermd/keymap/hypermd';
 import { IAppConfig } from '../IAppConfig';
 import { IInsertImageLink } from '../IInsertImageLink';
 
-interface EditorProps {}
+interface EditorCoreProps {}
 
-interface EditorStates {
+interface EditorCoreStates {
   content: string;
   shown_content: string;
   config: IAppConfig;
 }
 
-export default class Editor extends Component<EditorProps, EditorStates> {
+export default class EditorCore extends Component<EditorCoreProps, EditorCoreStates> {
   private editor: codemirror.Editor | null = null;
 
-  constructor(props: EditorProps) {
+  constructor(props: EditorCoreProps) {
     super(props);
     this.editor = null;
     this.state = {
