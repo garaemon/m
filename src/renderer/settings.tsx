@@ -19,7 +19,7 @@ interface SettingsProps {}
 
 interface SettingsState extends IAppConfig {}
 
-class Settings extends React.Component<SettingsProps, SettingsState> {
+export default class Settings extends React.Component<SettingsProps, SettingsState> {
   constructor(props: SettingsProps) {
     super(props);
     this.state = {
@@ -81,6 +81,3 @@ class Settings extends React.Component<SettingsProps, SettingsState> {
     );
   }
 }
-
-// レンダリング
-ReactDOM.render(<Settings />, document.getElementById('contents'));

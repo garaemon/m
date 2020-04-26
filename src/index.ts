@@ -16,8 +16,8 @@ class MainApp {
   private mainWindow: BrowserWindow | null = null;
   private settingsWindow: BrowserWindow | null = null;
   private app: App;
-  private mainURL: string = `file://${__dirname}/scripts/html/index.html`;
-  private settingsURL: string = `file://${__dirname}/scripts/html/settings.html`;
+  private mainURL: string = `file://${__dirname}/scripts/html/index.html#editor`;
+  private settingsURL: string = `file://${__dirname}/scripts/html/index.html#settings`;
   private targetFile: string | null = null;
   private debugMode: boolean = false;
   private config: AppConfig = new AppConfig();
