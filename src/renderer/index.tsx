@@ -29,7 +29,7 @@ class MMainComponent extends React.Component<MMainComponentProps, MMainComponent
         <CssBaseLine />
         <Switch>
           <Route path='/editor'>
-            <EditorCore></EditorCore>
+            <Editor></Editor>
           </Route>
           <Route path='/settings'>
             <Settings></Settings>
