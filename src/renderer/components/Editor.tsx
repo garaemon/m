@@ -60,7 +60,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Editor() {
+interface EditorProps {};
+
+const Editor : React.SFC<EditorProps> = (props: EditorProps) => {
   const styles = useStyles();
   const [open, setOption] = React.useState(false);
 
@@ -99,6 +101,6 @@ function Editor() {
       </div>
     </div>
   );
-}
+};
 
 export default Editor;

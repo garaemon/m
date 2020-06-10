@@ -11,7 +11,7 @@ import Moment from 'moment';
 const ipcRenderer = window.require('electron').ipcRenderer;
 
 import 'codemirror/lib/codemirror.css';
-import './theme/m.scss';
+import '../theme/m.scss';
 
 import 'codemirror/lib/codemirror';
 
@@ -44,8 +44,8 @@ import CompleteEmoji from 'hypermd/goods/complete-emoji';
 import { ClickInfo } from 'hypermd/addon/click';
 import 'hypermd/keymap/hypermd';
 
-import { IAppConfig } from '../IAppConfig';
-import { IInsertImageLink } from '../IInsertImageLink';
+import { IAppConfig } from '../../IAppConfig';
+import { IInsertImageLink } from '../../IInsertImageLink';
 
 interface EditorCoreProps {}
 

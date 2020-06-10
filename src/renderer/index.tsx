@@ -3,28 +3,16 @@ import { Switch, Route, Link, HashRouter as Router } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { BrowserWindow } from 'electron';
 import CssBaseLine from '@material-ui/core/CssBaseline';
+import { Provider } from 'react-redux';
 
-import Editor from './Editor';
-import Settings from './Settings';
+import Editor from './components/Editor';
+import Settings from './components/Settings';
+import store from './store';
 
-interface MMainComponentProps {
-  // 必要なプロパティを記述
-}
+interface MMainComponentProps {};
 
-interface MMainComponentStates {
-  // 必要なプロパティを記述
-}
-
-// クラスの場合
-class MMainComponent extends React.Component<MMainComponentProps, MMainComponentStates> {
-  constructor(props: MMainComponentProps) {
-    super(props);
-    this.state = {
-      // MMainComponentStates と一致する必要あり
-    };
-  }
-  public render(): React.ReactNode {
-    return (
+const MMainComponent : React.SFC<MMainComponentProps> = (props: MMainComponentProps) => {
+  return (
       <Router>
         <CssBaseLine />
         <Switch>
@@ -37,8 +25,13 @@ class MMainComponent extends React.Component<MMainComponentProps, MMainComponent
         </Switch>
       </Router>
     );
-  }
-}
+};
 
-// レンダリング
-ReactDOM.render(<MMainComponent />, document.getElementById('contents'));
+
+
+
+ReactDOM.render(
+  <Provider store={store}>
+    <MMainComponent />
+  </Provider>
+  , document.getElementById('contents'));

@@ -36,7 +36,9 @@
     "@types/lodash": "^4.14.149",
     "@types/react": "^16.9.23",
     "@types/react-dom": "^16.9.5",
+    "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.4",
+    "@types/redux-thunk": "^2.1.0",
     "@types/source-map-support": "^0.5.1",
     "@types/yaml": "^1.2.0",
     "@types/yargs": "^15.0.4",
@@ -68,8 +70,13 @@
     "react": "^16.13.0",
     "react-codemirror2": "^6.0.0",
     "react-dom": "^16.13.0",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.1.2",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.16",
+    "typescript-fsa": "^3.0.0",
+    "typescript-fsa-reducers": "^1.2.1",
     "yaml": "^1.8.3",
     "yargs": "^15.3.1"
   }
