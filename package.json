@@ -56,7 +56,7 @@
     "@material-ui/core": "^4.9.11",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "^4.9.10",
-    "codemirror": "^5.52.0",
+    "codemirror": "^5.58.2",
     "electron-context-menu": "^0.16.0",
     "expand-home-dir": "0.0.3",
     "hypermd": "^0.3.11",
